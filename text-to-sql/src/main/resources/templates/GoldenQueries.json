@@ -1,0 +1,2 @@
+{"Find all supermarkets within 500 meters of Zurich main station.": "SELECT p.osm_id, p.name, p.way FROM planet_osm_point AS p JOIN planet_osm_point AS z ON z.name = 'Zürich Hauptbahnhof' WHERE p.shop = 'supermarket' AND ST_DWithin(ST_Transform(p.way, 4326)::geography, ST_Transform(z.way, 4326)::geography, 500);"
+}
