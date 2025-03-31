@@ -18,4 +18,8 @@ public class QueryService {
     public List<Map<String, Object>> executeQuery(String sqlQuery) {
         return jdbcTemplate.queryForList(sqlQuery);
     }
+
+    public int executeUpdate(String sql) {
+        return jdbcTemplate.update(sql);
+    }
 }
