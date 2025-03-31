@@ -57,7 +57,6 @@ public class MainController {
             Boolean.parseBoolean(request.get("userFeedbackLoop")),
             Boolean.parseBoolean(request.get("syntaxFeedbackLoop")),
             Boolean.parseBoolean(request.get("allowEmptyResponse")),
-            false,
             request.get("model")
         );
     }

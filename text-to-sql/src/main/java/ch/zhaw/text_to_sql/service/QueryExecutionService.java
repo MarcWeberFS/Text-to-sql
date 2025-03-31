@@ -24,9 +24,9 @@ public class QueryExecutionService {
     }
     
 
-    public QueryResponse handleQuery (String prompt, boolean userFeedbackLoop, boolean syntaxFeedbackLoop, boolean allowEmptyResponse, boolean enablePromptBuilder, String model) {
+    public QueryResponse handleQuery (String prompt, boolean userFeedbackLoop, boolean syntaxFeedbackLoop, boolean allowEmptyResponse, String model) {
 
-        response = sendQueryToLLM(model, prompt, userFeedbackLoop, enablePromptBuilder, response, queryResult);
+        response = sendQueryToLLM(model, prompt, userFeedbackLoop, true, response, queryResult);
 
         queryResult = queryService.executeQuery(response);
 
@@ -36,7 +36,7 @@ public class QueryExecutionService {
 
         // Retry loop
         while ((queryResult.isEmpty() || queryResult.get(0).containsKey("error")) && i < 5 && syntaxFeedbackLoop) {
-            response = sendQueryToLLM(model, prompt, userFeedbackLoop, enablePromptBuilder, response, queryResult);
+            response = sendQueryToLLM(model, prompt, userFeedbackLoop, false, response, queryResult);
             queryResult = queryService.executeQuery(response);
             i++;
         }
@@ -45,9 +45,9 @@ public class QueryExecutionService {
 
     }
 
-    private String sendQueryToLLM(String model, String prompt, boolean userFeedbackLoop, boolean promptBuilderEnabled, String response, List<Map<String, Object>> queryResult) {
+    private String sendQueryToLLM(String model, String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response, List<Map<String, Object>> queryResult) {
         if (model.contains("chatgpt")) {
-            response = chatGPTService.getResponse(prompt, userFeedbackLoop, promptBuilderEnabled, response, queryResult);
+            response = chatGPTService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
         }
         return response;
     }
