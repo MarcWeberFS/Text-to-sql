@@ -1,5 +1,8 @@
 package ch.zhaw.text_to_sql.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,10 +36,12 @@ public class ChatGPTService {
                                 .build();
     }
 
-    public String getResponse(String prompt, boolean userFeedbackLoop, boolean promptBuilderEnabled) {
+    public String getResponse(String prompt, boolean userFeedbackLoop, boolean promptBuilderEnabled, String response, List<Map<String, Object>> queryResult) {
 
         if (promptBuilderEnabled) {
             prompt = promptBuildService.buildPrompt(prompt, userFeedbackLoop);
+        } else {
+            prompt = promptBuildService.buildRetryPrompt(prompt, response, queryResult);
         }
         
         ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()

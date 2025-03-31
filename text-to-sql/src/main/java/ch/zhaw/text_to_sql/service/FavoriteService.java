@@ -1,6 +1,5 @@
 package ch.zhaw.text_to_sql.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 

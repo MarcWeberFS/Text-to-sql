@@ -1,0 +1,4 @@
+The last SQL query did not return any data or had an error.
+
+Try a different approach. Maybe rephrase the condition, loosen filters, or use an alternative spatial method. 
+Respond ONLY with valid SQL. No code blocks, no extra text.
