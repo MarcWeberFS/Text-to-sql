@@ -36,9 +36,9 @@ public class ChatGPTService {
                                 .build();
     }
 
-    public String getResponse(String prompt, boolean userFeedbackLoop, boolean promptBuilderEnabled, String response, List<Map<String, Object>> queryResult) {
+    public String getResponse(String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response, List<Map<String, Object>> queryResult) {
 
-        if (promptBuilderEnabled) {
+        if (isFirstQuery) {
             prompt = promptBuildService.buildPrompt(prompt, userFeedbackLoop);
         } else {
             prompt = promptBuildService.buildRetryPrompt(prompt, response, queryResult);
