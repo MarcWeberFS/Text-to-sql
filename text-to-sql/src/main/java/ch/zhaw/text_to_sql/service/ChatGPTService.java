@@ -9,7 +9,6 @@ import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.ChatCompletion;
 import com.openai.models.ChatCompletionCreateParams;
 import com.openai.models.ChatModel;
-import com.openai.models.CompletionCreateParams.Prompt;
 
 @Service
 public class ChatGPTService {
@@ -34,21 +33,21 @@ public class ChatGPTService {
                                 .build();
     }
 
-    public String getResponse(String prompt) {
+    public String getResponse(String prompt, boolean userFeedbackLoop, boolean promptBuilderEnabled) {
 
-        prompt = promptBuildService.buildPrompt(prompt);
-
-        System.out.println("Prompt: " + prompt);
+        if (promptBuilderEnabled) {
+            prompt = promptBuildService.buildPrompt(prompt, userFeedbackLoop);
+        }
         
         ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
             .addUserMessage(prompt)
-            .model(ChatModel.CHATGPT_4O_LATEST)
+            .model(ChatModel.GPT_4O)
             .build();
         ChatCompletion chatCompletion = openAIClient.chat().completions().create(params);
 
         formattedChatGPTResponse = chatCompletion.choices().get(0).message().content().toString();
 
-        formattedChatGPTResponse = formattedChatGPTResponse.replace("Optional[", "").replace("]", "");
+        formattedChatGPTResponse = formattedChatGPTResponse.replace("Optional[", "").replace("]", "").replace("```sql", "").replace("```", "");
 
         return formattedChatGPTResponse;
     }

@@ -16,7 +16,12 @@ public class QueryService {
     }
 
     public List<Map<String, Object>> executeQuery(String sqlQuery) {
-        return jdbcTemplate.queryForList(sqlQuery);
+        try {
+            return jdbcTemplate.queryForList(sqlQuery);
+        } catch (Exception e) {
+            Map<String, Object> errorResponse = Map.of("error", "Error executing query: " + e.getMessage());
+            return List.of(errorResponse);
+        }
     }
 
     public int executeUpdate(String sql) {

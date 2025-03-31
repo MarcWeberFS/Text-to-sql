@@ -22,12 +22,19 @@ public class PromptBuildService {
         this.goldenTables = resourceLoader.getResource("classpath:/templates/GoldenTables.json");
     }
 
-    public String buildPrompt(String userInput) {
+    public String buildPrompt(String userInput, boolean userFeedbackLoop) {
 
-        prompt.append(readFileContent(instruction)).append("\n\n")
-              .append("Golden Tables: ").append(readFileContent(goldenTables)).append("\n\n")
-              .append("Golden Queries: ").append(favoriteService.getFavorites()).append("\n\n")
-              .append("User Input: ").append(userInput).append("\n\n");
+        if (userFeedbackLoop) {
+            prompt.append(readFileContent(instruction)).append("\n\n")
+                .append("Golden Tables: ").append(readFileContent(goldenTables)).append("\n\n")
+                .append("Golden Queries: ").append(favoriteService.getFavorites()).append("\n\n")
+                .append("User Input: ").append(userInput).append("\n\n");
+        } else {
+            prompt.append(readFileContent(instruction)).append("\n\n")
+                .append("Golden Tables: ").append(readFileContent(goldenTables)).append("\n\n")
+                .append("User Input: ").append(userInput).append("\n\n");
+        }
+
 
         return prompt.toString();
     }
