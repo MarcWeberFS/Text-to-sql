@@ -16,11 +16,13 @@ public class QueryExecutionService {
     private List<Map<String, Object>> queryResult = new ArrayList<>();
 
     private ChatGPTService chatGPTService;
+    private GeminiService geminiService;
     private QueryService queryService;
 
-    public QueryExecutionService(ChatGPTService chatGPTService, QueryService queryService) {
+    public QueryExecutionService(ChatGPTService chatGPTService, QueryService queryService, GeminiService geminiService) {
         this.chatGPTService = chatGPTService;
         this.queryService = queryService;
+        this.geminiService = geminiService;
     }
     
 
@@ -48,6 +50,8 @@ public class QueryExecutionService {
     private String sendQueryToLLM(String model, String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response, List<Map<String, Object>> queryResult) {
         if (model.contains("chatgpt")) {
             response = chatGPTService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
+        } else if (model.contains("gemini")) {
+            response = geminiService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
         }
         return response;
     }
