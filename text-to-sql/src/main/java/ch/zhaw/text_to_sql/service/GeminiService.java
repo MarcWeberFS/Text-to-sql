@@ -28,7 +28,7 @@ public class GeminiService {
 
     public String getResponse(String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response, List<Map<String, Object>> queryResult) {
 
-    if (isFirstQuery) {
+        if (isFirstQuery) {
             prompt = promptBuildService.buildPrompt(prompt, userFeedbackLoop);
         } else {
             prompt = promptBuildService.buildRetryPrompt(prompt, response, queryResult);

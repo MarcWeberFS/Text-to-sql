@@ -18,9 +18,11 @@ public class QueryExecutionService {
     private ChatGPTService chatGPTService;
     private GeminiService geminiService;
     private ClaudeService claudeService;
+    private DeepseekService deepseekService;
     private QueryService queryService;
 
-    public QueryExecutionService(ChatGPTService chatGPTService, QueryService queryService, GeminiService geminiService, ClaudeService claudeService) {
+    public QueryExecutionService(ChatGPTService chatGPTService, QueryService queryService, GeminiService geminiService, ClaudeService claudeService, DeepseekService deepseekService) {
+        this.deepseekService = deepseekService;
         this.chatGPTService = chatGPTService;
         this.queryService = queryService;
         this.geminiService = geminiService;
@@ -56,7 +58,12 @@ public class QueryExecutionService {
             response = geminiService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
         } else if (model.contains("claude")) {
             response = claudeService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
+        } else if (model.contains("deepseek")) {
+            response = deepseekService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
+        } else {
+            throw new IllegalArgumentException("Invalid model specified: " + model);
         }
+
         return response;
     }
 
