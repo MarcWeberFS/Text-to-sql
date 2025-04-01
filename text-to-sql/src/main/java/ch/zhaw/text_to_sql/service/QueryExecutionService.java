@@ -17,12 +17,14 @@ public class QueryExecutionService {
 
     private ChatGPTService chatGPTService;
     private GeminiService geminiService;
+    private ClaudeService claudeService;
     private QueryService queryService;
 
-    public QueryExecutionService(ChatGPTService chatGPTService, QueryService queryService, GeminiService geminiService) {
+    public QueryExecutionService(ChatGPTService chatGPTService, QueryService queryService, GeminiService geminiService, ClaudeService claudeService) {
         this.chatGPTService = chatGPTService;
         this.queryService = queryService;
         this.geminiService = geminiService;
+        this.claudeService = claudeService;
     }
     
 
@@ -52,6 +54,8 @@ public class QueryExecutionService {
             response = chatGPTService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
         } else if (model.contains("gemini")) {
             response = geminiService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
+        } else if (model.contains("claude")) {
+            response = claudeService.getResponse(prompt, userFeedbackLoop, isFirstQuery, response, queryResult);
         }
         return response;
     }
