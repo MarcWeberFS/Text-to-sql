@@ -62,7 +62,8 @@ public class ClaudeService {
         return query;
     } 
 
-    public String extractSqlQuery(String rawResponse) {
+    //ChatGPT generated method for extracting SQL query from response
+    private String extractSqlQuery(String rawResponse) {
         String startMarker = "```sql";
         String endMarker = "```";
     
