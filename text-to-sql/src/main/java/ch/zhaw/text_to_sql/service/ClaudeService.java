@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import com.anthropic.models.messages.Message;
 import com.anthropic.models.messages.MessageCreateParams;
 import com.anthropic.models.messages.Model;
 
+import ch.zhaw.text_to_sql.util.QueryExtractor;
 import jakarta.annotation.PostConstruct;
 
 @Service
@@ -58,31 +60,7 @@ public class ClaudeService {
 
         Message message = client.messages().create(params);
         System.out.println(message.content());
-        query = extractSqlQuery(message.content().toString());
+        query = QueryExtractor.extractSqlQuery(message.content().toString());
         return query;
     } 
-
-    //ChatGPT generated method for extracting SQL query from response
-    private String extractSqlQuery(String rawResponse) {
-        String startMarker = "```sql";
-        String endMarker = "```";
-    
-        int start = rawResponse.indexOf(startMarker);
-        int end = rawResponse.lastIndexOf(endMarker);
-    
-        if (start != -1 && end != -1 && end > start) {
-            String sqlBlock = rawResponse.substring(start + startMarker.length(), end);
-            return sqlBlock.trim();
-        }
-    
-        Pattern sqlPattern = Pattern.compile("SELECT.*?;", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
-        Matcher matcher = sqlPattern.matcher(rawResponse);
-        if (matcher.find()) {
-            return matcher.group().trim();
-        }
-    
-        return null;
-    }
-    
-    
 }
