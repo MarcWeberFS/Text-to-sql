@@ -67,7 +67,7 @@ public class QueryExecutionService {
         } else {
             throw new IllegalArgumentException("Invalid model specified: " + model);
         }
-
+        
         return response;
     }
 
