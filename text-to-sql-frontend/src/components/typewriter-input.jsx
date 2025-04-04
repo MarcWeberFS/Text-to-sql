@@ -1,0 +1,97 @@
+"use client"
+
+import { useState, useEffect, useRef } from "react"
+import { cn } from "../lib/utils"
+
+export default function TypewriterInput({
+  words = [
+    "Search for products...",
+    "Try searching for 'coffee'...",
+    "Looking for something?",
+    "Find what you need...",
+    "Discover amazing items...",
+  ],
+  className,
+}) {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [currentText, setCurrentText] = useState("")
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [isFocused, setIsFocused] = useState(false)
+  const [inputValue, setInputValue] = useState("")
+  const typingSpeed = 100 // Speed in milliseconds
+  const deletingSpeed = 50 // Speed for deleting characters
+  const pauseBeforeDelete = 2000 // Pause before starting to delete
+  const pauseBeforeNextWord = 500 // Pause before typing the next word
+
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    if (isFocused) return // Don't run the effect when input is focused
+
+    let timeout
+
+    if (isDeleting) {
+      if (currentText === "") {
+        setIsDeleting(false)
+        setCurrentWordIndex((prev) => (prev + 1) % words.length)
+        timeout = setTimeout(() => {}, pauseBeforeNextWord)
+      } else {
+        timeout = setTimeout(() => {
+          setCurrentText(currentText.slice(0, -1))
+        }, deletingSpeed)
+      }
+    } else {
+      const word = words[currentWordIndex]
+      if (currentText === word) {
+        timeout = setTimeout(() => {
+          setIsDeleting(true)
+        }, pauseBeforeDelete)
+      } else {
+        timeout = setTimeout(() => {
+          setCurrentText(word.slice(0, currentText.length + 1))
+        }, typingSpeed)
+      }
+    }
+
+    return () => clearTimeout(timeout)
+  }, [currentText, currentWordIndex, isDeleting, isFocused, words])
+
+  const handleFocus = () => {
+    setIsFocused(true)
+  }
+
+  const handleBlur = () => {
+    if (!inputValue) {
+      setIsFocused(false)
+      // Reset to start typing the current word from the beginning
+      setCurrentText("")
+      setIsDeleting(false)
+    }
+  }
+
+  const handleChange = (e) => {
+    setInputValue(e.target.value)
+  }
+
+  return (
+    <div className="relative w-full max-w-md">
+      <input
+        ref={inputRef}
+        type="text"
+        value={inputValue}
+        onChange={handleChange}
+        onFocus={handleFocus}
+        onBlur={handleBlur}
+        className={cn(
+          "w-full px-4 py-2 text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
+          className,
+        )}
+        placeholder={isFocused ? "" : currentText}
+      />
+      {!isFocused && !inputValue && (
+        <span className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-[1px] bg-black animate-blink" />
+      )}
+    </div>
+  )
+}
+
