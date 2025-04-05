@@ -74,7 +74,7 @@ export default function TypewriterInput({
   }
 
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full">
       <input
         ref={inputRef}
         type="text"
@@ -83,14 +83,13 @@ export default function TypewriterInput({
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cn(
-          "w-full px-4 py-2 text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
-          className,
-        )}
+            "w-full sm:w-4/5 px-4 py-2 text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mx-auto",
+            className,
+          )}
+          
         placeholder={isFocused ? "" : currentText}
       />
-      {!isFocused && !inputValue && (
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-[1px] bg-black animate-blink" />
-      )}
+
     </div>
   )
 }

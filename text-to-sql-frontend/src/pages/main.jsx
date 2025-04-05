@@ -49,12 +49,11 @@ export default function MainPage() {
   }, [])
 
     return (
+
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
         <h1 className="text-4xl font-bold mb-4">Welcome to the Main Page</h1>
-        <TypewriterInput
-            words={queries}
-            className="text-lg text-gray-700"
-        />
-        </div>
+        <TypewriterInput words={queries} className="text-lg text-gray-700 flex justify-center items-center " />
+        {isLoading && <p className="text-sm text-gray-500 mt-2">Loading your favorite searches...</p>}
+      </div>
     )
 }
