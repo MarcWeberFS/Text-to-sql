@@ -5,11 +5,7 @@ import { cn } from "../lib/utils"
 
 export default function TypewriterInput({
   words = [
-    "Search for products...",
-    "Try searching for 'coffee'...",
-    "Looking for something?",
-    "Find what you need...",
-    "Discover amazing items...",
+    "example"
   ],
   className,
 }) {
@@ -83,7 +79,7 @@ export default function TypewriterInput({
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cn(
-            "w-full sm:w-4/5 px-4 py-2 text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mx-auto",
+            "sm:w-4/5 md:w-3xl px-4 py-2 text-base border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mx-auto",
             className,
           )}
           
