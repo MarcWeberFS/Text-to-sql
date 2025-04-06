@@ -6,6 +6,7 @@ import { cn } from "../lib/utils"
 import { Checkbox } from "./checkbox"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./select"
 import SqlBox from "./sql-box"
+import ResponseTable from "./response-table"
 
 
 
@@ -16,6 +17,7 @@ export default function InputForm({ className }) {
     const [modelName, setModelName] = useState("")
     const [lastPrompt, setLastPrompt] = useState("")
     const [executedQuery, setExecutedQuery] = useState("")
+    const [resultData, setResultData] = useState([])
     
 
   const [queries, setQueries] = useState([
@@ -66,7 +68,7 @@ export default function InputForm({ className }) {
   const handleSubmit = async (prompt) => {
     const payload = {
       prompt,
-      model: modelName || "gpt-4",
+      model: modelName,
       userFeedbackLoop: checkedUFL,
       syntaxFeedbackLoop: checkedSFL,
       allowEmptyResponse: checkedAER,
@@ -88,6 +90,10 @@ export default function InputForm({ className }) {
       setLastPrompt(prompt)
   
       console.log("Query result:", data.result)
+      setExecutedQuery(data.executedQuery)
+        setLastPrompt(prompt)
+        setResultData(data.result || [])
+
     } catch (err) {
       console.error("API call failed:", err)
     }
@@ -121,7 +127,7 @@ export default function InputForm({ className }) {
   
 
   return (
-    <><div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-400  border", className)}>
+    <><div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-300 shadow-md border", className)}>
           <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
               <div className="flex flex-wrap gap-4">
                   <Checkbox
@@ -145,26 +151,28 @@ export default function InputForm({ className }) {
                           id="model"
                           className="h-8 min-h-8 border-0 bg-gray-100 dark:bg-gray-800"
                       >
-                          <SelectValue placeholder="Model" />
+                          <SelectValue placeholder="chatgpt" />
                       </SelectTrigger>
                       <SelectContent>
                           <SelectItem value="claude">Claude</SelectItem>
                           <SelectItem value="deepseek">Deepseek</SelectItem>
                           <SelectItem value="gemini">Gemini</SelectItem>
                           <SelectItem value="grok">Grok</SelectItem>
-                          <SelectItem value="chatgpt">GPT-4</SelectItem>
+                          <SelectItem value="chatgpt">chatgpt</SelectItem>
                       </SelectContent>
                   </Select>
               </div>
           </div>
 
-          <TypewriterInput words={queries} className="w-full sm:w-4/5 text-lg text-gray-700 flex justify-center items-center" onSubmit={handleSubmit} />
+          <TypewriterInput words={queries} className="w-full sm:w-4/5 text-lg text-gray-700 flex justify-center items-center " onSubmit={handleSubmit} />
           {isLoading && <p className="text-sm text-gray-500 mt-2">Loading your favorite searches...</p>}
 
 
 
       </div><div>
         <SqlBox executedQuery={executedQuery} handleSaveFavorite={handleSaveFavorite} />
+        {resultData.length > 0 && <ResponseTable data={resultData} />}
+
           </div></>
     
   )
