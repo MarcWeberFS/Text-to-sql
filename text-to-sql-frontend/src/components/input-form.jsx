@@ -5,13 +5,18 @@ import TypewriterInput from "./typewriter-input"
 import { cn } from "../lib/utils"
 import { Checkbox } from "./checkbox"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./select"
+import SqlBox from "./sql-box"
+
+
 
 export default function InputForm({ className }) {
     const [checkedUFL, setCheckedUFL] = useState(false)
     const [checkedSFL, setCheckedSFL] = useState(false)
     const [checkedAER, setCheckedAER] = useState(false)
     const [modelName, setModelName] = useState("")
-
+    const [lastPrompt, setLastPrompt] = useState("")
+    const [executedQuery, setExecutedQuery] = useState("")
+    
 
   const [queries, setQueries] = useState([
     "Loading suggestions...", // Default placeholder while loading
@@ -72,63 +77,96 @@ export default function InputForm({ className }) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Accept": "application/json" 
         },
         body: JSON.stringify(payload),
       })
   
       const data = await res.json()
-      console.log("Response:", data)
-      // Optionally handle the response (display result, show a toast, etc.)
+  
+      setExecutedQuery(data.executedQuery)
+      setLastPrompt(prompt)
+  
+      console.log("Query result:", data.result)
     } catch (err) {
       console.error("API call failed:", err)
     }
   }
   
+  const handleSaveFavorite = async () => {
+    if (!lastPrompt || !executedQuery) return
+  
+    try {
+      const res = await fetch("http://localhost:8080/favorite", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query: lastPrompt,
+          sql: executedQuery,
+        }),
+      })
+  
+      if (res.ok) {
+        console.log("Favorite saved!")
+        // Optionally show a toast or clear state
+      } else {
+        throw new Error("Failed to save favorite")
+      }
+    } catch (error) {
+      console.error("Save failed:", error)
+    }
+  }
+  
 
   return (
-    <div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-400  border", className)}>
-   <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
-  <div className="flex flex-wrap gap-4">
-    <Checkbox
-      checked={checkedUFL}
-      onChange={() => setCheckedUFL(!checkedUFL)}
-      label="User Feedback Loop"
-    />
-    <Checkbox
-      checked={checkedSFL}
-      onChange={() => setCheckedSFL(!checkedSFL)}
-      label="Syntax Feedback Loop"
-    />
-    <Checkbox
-      checked={checkedAER}
-      onChange={() => setCheckedAER(!checkedAER)}
-      label="Allow Empty Response"
-    />
-  </div>
+    <><div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-400  border", className)}>
+          <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
+              <div className="flex flex-wrap gap-4">
+                  <Checkbox
+                      checked={checkedUFL}
+                      onChange={() => setCheckedUFL(!checkedUFL)}
+                      label="User Feedback Loop" />
+                  <Checkbox
+                      checked={checkedSFL}
+                      onChange={() => setCheckedSFL(!checkedSFL)}
+                      label="Syntax Feedback Loop" />
+                  <Checkbox
+                      checked={checkedAER}
+                      onChange={() => setCheckedAER(!checkedAER)}
+                      label="Allow Empty Response" />
+              </div>
 
-  {/* Model Selector */}
-  <div className="w-28">
-    <Select value={modelName} onValueChange={setModelName}>
-      <SelectTrigger
-        id="model"
-        className="h-8 min-h-8 border-0 bg-gray-100 dark:bg-gray-800"
-      >
-        <SelectValue placeholder="Model" />
-      </SelectTrigger>
-      <SelectContent>
-      <SelectItem value="claude">Claude</SelectItem>
-        <SelectItem value="deepseek">Deepseek</SelectItem>
-        <SelectItem value="gemini">Gemini</SelectItem>
-        <SelectItem value="grok">Grok</SelectItem>
-        <SelectItem value="chatgpt">GPT-4</SelectItem>
-      </SelectContent>
-    </Select>
-  </div>
-</div>
+              {/* Model Selector */}
+              <div className="w-28">
+                  <Select value={modelName} onValueChange={setModelName}>
+                      <SelectTrigger
+                          id="model"
+                          className="h-8 min-h-8 border-0 bg-gray-100 dark:bg-gray-800"
+                      >
+                          <SelectValue placeholder="Model" />
+                      </SelectTrigger>
+                      <SelectContent>
+                          <SelectItem value="claude">Claude</SelectItem>
+                          <SelectItem value="deepseek">Deepseek</SelectItem>
+                          <SelectItem value="gemini">Gemini</SelectItem>
+                          <SelectItem value="grok">Grok</SelectItem>
+                          <SelectItem value="chatgpt">GPT-4</SelectItem>
+                      </SelectContent>
+                  </Select>
+              </div>
+          </div>
 
-      <TypewriterInput words={queries} className="w-full sm:w-4/5 text-lg text-gray-700 flex justify-center items-center"  onSubmit={handleSubmit} />
-      {isLoading && <p className="text-sm text-gray-500 mt-2">Loading your favorite searches...</p>}
-    </div>
+          <TypewriterInput words={queries} className="w-full sm:w-4/5 text-lg text-gray-700 flex justify-center items-center" onSubmit={handleSubmit} />
+          {isLoading && <p className="text-sm text-gray-500 mt-2">Loading your favorite searches...</p>}
+
+
+
+      </div><div>
+        <SqlBox executedQuery={executedQuery} handleSaveFavorite={handleSaveFavorite} />
+          </div></>
+    
   )
 }
 

@@ -3,6 +3,7 @@ package ch.zhaw.text_to_sql.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -50,8 +51,10 @@ public class MainController {
 
 
     @RequestMapping("/favorite")
-    public BodyBuilder saveFavorite(@RequestBody Map<String, String> request) {
-        return favoriteService.addFavorite(request);
+    public ResponseEntity<Map<String, String>> saveFavorite(@RequestBody Map<String, String> request) {
+        favoriteService.addFavorite(request);
+        
+        return ResponseEntity.ok(Map.of("message", "Favorite saved"));
     }
 
     @RequestMapping("/removeFavorite")
