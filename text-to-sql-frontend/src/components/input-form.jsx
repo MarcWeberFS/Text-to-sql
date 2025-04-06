@@ -56,7 +56,7 @@ export default function InputForm({ className }) {
   }, [])
 
   return (
-    <div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-100", className)}>
+    <div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-400  border", className)}>
         <div className="flex mb-4 gap-4 ml-0">
             <Checkbox
                 checked={checkedUFL}
