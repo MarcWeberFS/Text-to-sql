@@ -170,7 +170,8 @@ export default function InputForm({ className }) {
 
 
       </div><div>
-        <SqlBox executedQuery={executedQuery} handleSaveFavorite={handleSaveFavorite} />
+        
+        {resultData.length > 0 && <SqlBox executedQuery={executedQuery} handleSaveFavorite={handleSaveFavorite} />}
         {resultData.length > 0 && <ResponseTable data={resultData} />}
 
           </div></>

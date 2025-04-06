@@ -20,7 +20,6 @@ export default function SqlBox({ executedQuery, handleSaveFavorite }) {
             Executed SQL Query:
           </label>
 
-          {/* Heart icon */}
           <button
             onClick={handleClick}
             className={`absolute top-1 right-2 transition z-10 ${
@@ -31,7 +30,7 @@ export default function SqlBox({ executedQuery, handleSaveFavorite }) {
             >
             <Heart
                 className="w-5 h-5"
-                fill={isSaved ? "currentColor" : "none"} // Fill red if saved
+                fill={isSaved ? "currentColor" : "none"}
             />
             </button>
 
