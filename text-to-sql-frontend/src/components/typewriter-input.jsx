@@ -8,6 +8,7 @@ export default function TypewriterInput({
     "example"
   ],
   className,
+    onSubmit,
 }) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [currentText, setCurrentText] = useState("")
@@ -84,6 +85,14 @@ export default function TypewriterInput({
           )}
           
         placeholder={isFocused ? "" : currentText}
+        onKeyDown={(e) => {
+            if (e.key === "Enter" && !e.shiftKey) {
+              e.preventDefault()
+              if (onSubmit) {
+                onSubmit(inputValue)
+              }
+            }
+          }}
       />
     </div>
   )

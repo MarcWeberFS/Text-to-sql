@@ -58,6 +58,33 @@ export default function InputForm({ className }) {
     fetchQueries()
   }, [])
 
+  const handleSubmit = async (prompt) => {
+    const payload = {
+      prompt,
+      model: modelName || "gpt-4",
+      userFeedbackLoop: checkedUFL,
+      syntaxFeedbackLoop: checkedSFL,
+      allowEmptyResponse: checkedAER,
+    }
+  
+    try {
+      const res = await fetch("http://localhost:8080/query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      })
+  
+      const data = await res.json()
+      console.log("Response:", data)
+      // Optionally handle the response (display result, show a toast, etc.)
+    } catch (err) {
+      console.error("API call failed:", err)
+    }
+  }
+  
+
   return (
     <div className={cn("flex flex-col bg-white p-5 rounded-md border-gray-400  border", className)}>
    <div className="flex flex-wrap items-center justify-between mb-4 gap-4">
@@ -89,15 +116,17 @@ export default function InputForm({ className }) {
         <SelectValue placeholder="Model" />
       </SelectTrigger>
       <SelectContent>
+      <SelectItem value="claude">Claude</SelectItem>
+        <SelectItem value="deepseek">Deepseek</SelectItem>
+        <SelectItem value="gemini">Gemini</SelectItem>
         <SelectItem value="grok">Grok</SelectItem>
-        <SelectItem value="gpt-4">GPT-4</SelectItem>
-        <SelectItem value="claude">Claude</SelectItem>
+        <SelectItem value="chatgpt">GPT-4</SelectItem>
       </SelectContent>
     </Select>
   </div>
 </div>
 
-      <TypewriterInput words={queries} className="w-full sm:w-4/5 text-lg text-gray-700 flex justify-center items-center" />
+      <TypewriterInput words={queries} className="w-full sm:w-4/5 text-lg text-gray-700 flex justify-center items-center"  onSubmit={handleSubmit} />
       {isLoading && <p className="text-sm text-gray-500 mt-2">Loading your favorite searches...</p>}
     </div>
   )
