@@ -12,7 +12,6 @@ public class BenchmarkService {
 
     private final QueryService queryService;
     private QueryExecutionService queryExecutionService;
-    private QueryResponse queryResponse;
 
     public BenchmarkService(QueryService queryService, QueryExecutionService queryExecutionService) {
         this.queryService = queryService;
@@ -67,18 +66,19 @@ public class BenchmarkService {
                     boolean success = normalizeResult(expectedResult).equals(normalizeResult(llmResult));
     
                     String insert = String.format(
-                        "INSERT INTO benchmark_results (benchmark_case_id, is_correct, query, result, response_time_ms, run_number, retry_number, llm, user_feedback_loop, syntax_feedback_loop) " +
-                        "VALUES (%d, %b, $$%s$$, $$%s$$, %d, %d, %d, '%s', %b, %b)",
+                        "INSERT INTO benchmark_results (benchmark_case_id, is_correct, query, result, response_time_ms, run_number, retry_number, llm, user_feedback_loop, syntax_feedback_loop, human_correction) " +
+                        "VALUES (%d, %b, $$%s$$, $$%s$$, %d, %d, %d, '%s', %b, %b, %b)",
                         testCase.getId(),
                         success,
                         generatedSql.replace("$", "\\$"),
                         null,
                         duration,
                         1,
-                        0,
+                        response.getRetries(),
                         llm,
                         user_feedback_loop,
-                        syntax_feedback_loop
+                        syntax_feedback_loop,
+                        success // initialize human_correction as the same as success
                     );
                     
     
