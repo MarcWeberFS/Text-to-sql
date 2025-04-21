@@ -48,7 +48,7 @@ public class ClaudeService {
         }
 
         MessageCreateParams params = MessageCreateParams.builder()
-                .model(Model.CLAUDE_3_7_SONNET_20250219)
+                .model(Model.CLAUDE_3_5_HAIKU_LATEST)
                 .maxTokens(1000)
                 .temperature(1.0)
                 .system("You are a world-class SQL engineer with a focus on PostgreSQL with the PostGIS extion. Respond only with SQL queries in text format")

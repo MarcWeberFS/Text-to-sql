@@ -46,7 +46,7 @@ public class ChatGPTService {
         
         ChatCompletionCreateParams params = ChatCompletionCreateParams.builder()
             .addUserMessage(prompt)
-            .model(ChatModel.GPT_4O)
+            .model(ChatModel.GPT_4O_MINI)
             .build();
         ChatCompletion chatCompletion = openAIClient.chat().completions().create(params);
 

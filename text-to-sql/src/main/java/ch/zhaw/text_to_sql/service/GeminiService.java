@@ -57,8 +57,6 @@ public class GeminiService {
             }
         """.formatted(escapedPrompt);
 
-        System.out.println(requestBody);
-
         String url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + geminiApiKey;
 
         HttpRequest request = HttpRequest.newBuilder()
@@ -70,7 +68,6 @@ public class GeminiService {
         HttpClient client = HttpClient.newHttpClient();
         try {
             HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println("Response: " + httpResponse.body());
             return QueryExtractor.extractSqlQuery(httpResponse.body());
         } catch (IOException | InterruptedException e) {
             e.printStackTrace();

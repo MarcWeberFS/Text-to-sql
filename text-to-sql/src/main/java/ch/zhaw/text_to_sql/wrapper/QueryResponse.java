@@ -25,5 +25,9 @@ public class QueryResponse {
             return executedQuery;
         }
 
+        public int getRetries() {
+            return retries;
+        }
+
     }
 

@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import ch.zhaw.text_to_sql.service.BenchmarkService;
 import ch.zhaw.text_to_sql.service.FavoriteService;
 import ch.zhaw.text_to_sql.service.QueryExecutionService;
 import ch.zhaw.text_to_sql.wrapper.QueryResponse;
 
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,8 +29,11 @@ public class MainController {
 
     private FavoriteService favoriteService;
 
-    public MainController(QueryExecutionService queryExecutionService, FavoriteService favoriteService) {
+    private BenchmarkService benchmarkService;
+
+    public MainController(QueryExecutionService queryExecutionService, FavoriteService favoriteService, BenchmarkService benchmarkService) {
         this.favoriteService = favoriteService;
+        this.benchmarkService = benchmarkService;
         this.queryExecutionService = queryExecutionService;
     }
     
@@ -66,6 +71,23 @@ public class MainController {
     @RequestMapping("/getFavorites")
     public List<Map<String, Object>> getFavorites() {
         return favoriteService.getFavorites();
+    }
+
+    @GetMapping("/benchmark/test")
+    public String runFirstBenchmarkTest(@RequestBody Map<String, String> request) {
+        benchmarkService.runFirstBenchmarkCaseOnce(
+            Boolean.parseBoolean(request.get("userFeedbackLoop")),
+            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")));
+        return "First benchmark test executed for all LLMs.";
+    }
+
+    @GetMapping("/benchmark")
+    @ResponseBody
+    public String runBenchmark(@RequestBody Map<String, String> request) {
+        benchmarkService.runAllBenchmarks(
+            Boolean.parseBoolean(request.get("userFeedbackLoop")),
+            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")));
+        return "Running all benchmarks for all LLMs.";
     }
     
 }
