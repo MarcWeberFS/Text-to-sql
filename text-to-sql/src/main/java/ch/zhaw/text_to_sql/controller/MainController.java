@@ -37,11 +37,6 @@ public class MainController {
         this.queryExecutionService = queryExecutionService;
     }
     
-    @RequestMapping("/")
-    @ResponseBody
-    public String requestMethodName() {
-        return "Hello";
-    }
     
     @PostMapping("/query")
     public QueryResponse runQuery(@RequestBody Map<String, String> request) {

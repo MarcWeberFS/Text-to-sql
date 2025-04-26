@@ -5,9 +5,14 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.anthropic.models.beta.messages.batches.BatchListPage.Response;
+
+import ch.zhaw.text_to_sql.util.ResponseSanitizer;
+
 @Service
 public class BenchmarkResultService {
     private QueryService queryService;
+    private ResponseSanitizer responseSanitizer = new ResponseSanitizer();
 
     public BenchmarkResultService(QueryService queryService) {
         this.queryService = queryService;
@@ -18,10 +23,10 @@ public class BenchmarkResultService {
     }
 
     public List<Map<String, Object>> getBenchmarkCase(int id) {
-        return queryService.executeQuery("select * from benchmark_cases where id = " + id);
+        return responseSanitizer.sanitizeResult(queryService.executeQuery("select * from benchmark_cases where id = " + id));
     }
 
     public List<Map<String, Object>> getBenchmarkCaseResult(int id) {
-        return queryService.executeQuery("select * from benchmark_results where run_number = 1 and benchmark_case_id = " + id);
+        return  responseSanitizer.sanitizeResult(queryService.executeQuery("select * from benchmark_results where run_number = 1 and benchmark_case_id = " + id));
     }
 }

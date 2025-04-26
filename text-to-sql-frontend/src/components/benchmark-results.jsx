@@ -9,7 +9,7 @@ export default function BenchmarkResults({ correction }) {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch("http://localhost:8080/getBenchmarkResults", {
+        const response = await fetch("http://localhost:8080/benchmark/getResults", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -77,22 +77,27 @@ export default function BenchmarkResults({ correction }) {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {Object.entries(groupedResults).map(([benchmarkId, llmResults]) => (
-                <tr key={benchmarkId}>
-                  <td className="px-6 py-2 whitespace-nowrap text-center font-semibold">{benchmarkId}</td>
-                  {llms.map((llm) => (
+            {Object.entries(groupedResults).map(([benchmarkId, llmResults]) => (
+                <tr
+                    key={benchmarkId}
+                    className="hover:bg-gray-100 cursor-pointer"
+                    onClick={() => window.location.href = `/case/${benchmarkId}`}
+                >
+                    <td className="px-6 py-2 whitespace-nowrap text-center font-semibold">{benchmarkId}</td>
+                    {llms.map((llm) => (
                     <td key={llm} className="px-6 py-2 whitespace-nowrap text-center">
-                      {llmResults[llm] === undefined ? (
+                        {llmResults[llm] === undefined ? (
                         "-"
-                      ) : llmResults[llm] ? (
+                        ) : llmResults[llm] ? (
                         <span className="text-green-500 font-bold text-lg">✅</span>
-                      ) : (
+                        ) : (
                         <span className="text-red-500 font-bold text-lg">❌</span>
-                      )}
+                        )}
                     </td>
-                  ))}
+                    ))}
                 </tr>
-              ))}
+            ))}
+
 
               {/* Total Correct Row */}
               <tr className="bg-gray-50 font-semibold">

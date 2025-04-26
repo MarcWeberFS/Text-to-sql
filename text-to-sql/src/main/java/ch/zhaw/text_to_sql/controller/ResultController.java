@@ -3,6 +3,7 @@ package ch.zhaw.text_to_sql.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ch.zhaw.text_to_sql.service.BenchmarkResultService;
 
 @RestController
+@RequestMapping("/benchmark")
 public class ResultController {
 
     private BenchmarkResultService benchmarkResultService;
@@ -17,19 +19,20 @@ public class ResultController {
     public ResultController(BenchmarkResultService benchmarkResultService) {
         this.benchmarkResultService = benchmarkResultService;
     }
-    
-    @RequestMapping("/getBenchmarkResults")
+
+    @RequestMapping("/getResults")
     public List<Map<String, Object>> getBenchmarkResults() {
         return benchmarkResultService.getBenchmarkResults();
     }
 
     @RequestMapping("/case/{id}")
-    public List<Map<String, Object>> getBenchmarkCase(@RequestParam int id) {
+    public List<Map<String, Object>> getBenchmarkCase(@PathVariable int id) {
         return benchmarkResultService.getBenchmarkCase(id);
     }
 
     @RequestMapping("/caseResult/{id}")
-    public List<Map<String, Object>> getBenchmarkCaseResult(@RequestParam int id) {
+    public List<Map<String, Object>> getBenchmarkCaseResult(@PathVariable int id) {
         return benchmarkResultService.getBenchmarkCaseResult(id);
     }
 }
+
