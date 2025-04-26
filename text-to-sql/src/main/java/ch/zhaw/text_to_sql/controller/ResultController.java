@@ -5,10 +5,10 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.text_to_sql.service.BenchmarkResultService;
+
 
 @RestController
 @RequestMapping("/benchmark")
@@ -34,5 +34,11 @@ public class ResultController {
     public List<Map<String, Object>> getBenchmarkCaseResult(@PathVariable int id) {
         return benchmarkResultService.getBenchmarkCaseResult(id);
     }
+
+    @RequestMapping("/getResponsetime")
+    public List<Map<String, Object>> requestMethodName() {
+        return benchmarkResultService.getResponsetime();
+    }
+    
 }
 

@@ -5,8 +5,6 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.anthropic.models.beta.messages.batches.BatchListPage.Response;
-
 import ch.zhaw.text_to_sql.util.ResponseSanitizer;
 
 @Service
@@ -28,5 +26,14 @@ public class BenchmarkResultService {
 
     public List<Map<String, Object>> getBenchmarkCaseResult(int id) {
         return  responseSanitizer.sanitizeResult(queryService.executeQuery("select * from benchmark_results where run_number = 1 and benchmark_case_id = " + id));
+    }
+
+    public List<Map<String, Object>> getResponsetime() {
+        return queryService.executeQuery("SELECT\n" + 
+                        " llm,\n" + 
+                        " AVG(response_time_ms) AS avg_response_time_ms\n" + 
+                        "FROM benchmark_results\n" + 
+                        "GROUP BY llm\n" + 
+                        "ORDER BY avg_response_time_ms ASC;");
     }
 }
