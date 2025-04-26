@@ -33,6 +33,7 @@ public class BenchmarkResultService {
                         " llm,\n" + 
                         " AVG(response_time_ms) AS avg_response_time_ms\n" + 
                         "FROM benchmark_results\n" + 
+                        "WHERE run_number = 1\n" +
                         "GROUP BY llm\n" + 
                         "ORDER BY avg_response_time_ms ASC;");
     }
