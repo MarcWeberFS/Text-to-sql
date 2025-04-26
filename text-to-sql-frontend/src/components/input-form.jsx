@@ -7,6 +7,7 @@ import { Checkbox } from "./checkbox"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "./select"
 import SqlBox from "./sql-box"
 import ResponseTable from "./response-table"
+import ResultMap from "./result-app"
 
 
 
@@ -18,15 +19,16 @@ export default function InputForm({ className }) {
     const [lastPrompt, setLastPrompt] = useState("")
     const [executedQuery, setExecutedQuery] = useState("")
     const [resultData, setResultData] = useState([])
+    const [queryLoading, setQueryLoading] = useState(false)
+
     
 
   const [queries, setQueries] = useState([
-    "Loading suggestions...", // Default placeholder while loading
+    "Loading suggestions...", 
   ])
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    // Fetch queries when component mounts
     const fetchQueries = async () => {
       try {
         setIsLoading(true)
@@ -47,11 +49,9 @@ export default function InputForm({ className }) {
         // And filter out duplicates to make the typewriter effect more interesting
         const uniqueQueries = [...new Set(data.map((item) => item.query))]
 
-        // Only update state if we got some queries
         if (uniqueQueries.length > 0) {
           setQueries(uniqueQueries)
         } else {
-          // Fallback if no queries were returned
           setQueries(["No saved queries found", "Try searching for something..."])
         }
       } catch (error) {
@@ -75,11 +75,12 @@ export default function InputForm({ className }) {
     }
   
     try {
+      setQueryLoading(true) 
       const res = await fetch("http://localhost:8080/query", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Accept": "application/json" 
+          "Accept": "application/json"
         },
         body: JSON.stringify(payload),
       })
@@ -88,16 +89,14 @@ export default function InputForm({ className }) {
   
       setExecutedQuery(data.executedQuery)
       setLastPrompt(prompt)
-  
-      console.log("Query result:", data.result)
-      setExecutedQuery(data.executedQuery)
-        setLastPrompt(prompt)
-        setResultData(data.result || [])
-
+      setResultData(data.result || [])
     } catch (err) {
       console.error("API call failed:", err)
+    } finally {
+      setQueryLoading(false) 
     }
   }
+  
   
   const handleSaveFavorite = async () => {
     if (!lastPrompt || !executedQuery) return
@@ -116,7 +115,6 @@ export default function InputForm({ className }) {
   
       if (res.ok) {
         console.log("Favorite saved!")
-        // Optionally show a toast or clear state
       } else {
         throw new Error("Failed to save favorite")
       }
@@ -151,7 +149,7 @@ export default function InputForm({ className }) {
                           id="model"
                           className="h-8 min-h-8 border-0 bg-gray-100 dark:bg-gray-800"
                       >
-                          <SelectValue placeholder="chatgpt" />
+                          <SelectValue placeholder="Select Model" />
                       </SelectTrigger>
                       <SelectContent>
                           <SelectItem value="claude">Claude</SelectItem>
@@ -170,9 +168,19 @@ export default function InputForm({ className }) {
 
 
       </div><div>
-        
+      {queryLoading && (
+        <div className="flex flex-col justify-center items-center mt-8">
+          <div className="h-12 w-12 border-4 border-black border-t-transparent rounded-full animate-spin"></div>
+          <p className="mt-2 text-sm text-gray-800">Loading query result...</p>
+        </div>
+      )}
+
+
         {resultData.length > 0 && <SqlBox executedQuery={executedQuery} handleSaveFavorite={handleSaveFavorite} />}
+        {resultData.length > 0 && <ResultMap data={resultData} />}
         {resultData.length > 0 && <ResponseTable data={resultData} />}
+        
+
 
           </div></>
     
