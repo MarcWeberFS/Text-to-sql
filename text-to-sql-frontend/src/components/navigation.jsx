@@ -7,6 +7,7 @@ export default function Navigation() {
 
   const navItems = [
     { label: "Home", path: "/" },
+    { label: "Favorites", path: "/favorites" },
     { label: "Benchmark", path: "/benchmark" },
   ];
 

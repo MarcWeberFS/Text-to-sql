@@ -58,10 +58,11 @@ public class MainController {
     }
 
     @RequestMapping("/removeFavorite")
-    @ResponseBody
-    public BodyBuilder removeFavorite(@RequestParam int index) {
-        return favoriteService.removeFavorite(index);
+    public ResponseEntity<String> removeFavorite(@RequestParam int index) {
+        favoriteService.removeFavorite(index);
+        return ResponseEntity.ok("Favorite removed successfully");
     }
+    
 
     @RequestMapping("/getFavorites")
     public List<Map<String, Object>> getFavorites() {
