@@ -11,7 +11,7 @@
     "@testing-library/user-event": "^13.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "framer-motion": "^12.6.3",
+    "framer-motion": "^12.9.2",
     "icons-react": "^3.7.1",
     "leaflet": "^1.9.4",
     "lucide-react": "^0.487.0",

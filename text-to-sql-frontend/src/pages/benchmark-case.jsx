@@ -3,6 +3,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CodeBlock } from "../components/code-block";
+import Navigation from "../components/navigation";
 
 export default function BenchmarkCase() {
   const { id } = useParams();
@@ -42,7 +43,9 @@ export default function BenchmarkCase() {
   }
 
   return (
-    <div className="flex flex-col items-center p-6">
+    
+    <div className="flex flex-col items-center p-6 pt-24">
+        <Navigation/>
       <div className="flex flex-col gap-8">
         
         <div className="bg-white p-6 rounded-md border border-gray-300 shadow-md">
