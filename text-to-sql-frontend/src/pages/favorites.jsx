@@ -34,12 +34,11 @@ export default function Favorites() {
   const handleDelete = async (id) => {
     try {
       const response = await fetch(`http://localhost:8080/removeFavorite?index=${id}`, {
-        method: "POST", // ✅ important: POST not GET
+        method: "POST",
       });
 
       if (!response.ok) throw new Error("Failed to remove favorite");
 
-      // After successful deletion, refetch the updated favorites
       fetchFavorites();
     } catch (error) {
       console.error("Error deleting favorite:", error);
