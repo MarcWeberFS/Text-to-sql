@@ -57,5 +57,18 @@ public class BenchmarkResultService {
             ");"
         );
     }
+
+    public List<Map<String, Object>> getCorrectionCount() {
+        return queryService.executeQuery("""
+        SELECT
+          is_correct,
+          human_correction,
+          COUNT(*) AS count
+        FROM benchmark_results
+        WHERE run_number = 1
+        GROUP BY is_correct, human_correction
+        ORDER BY human_correction DESC, is_correct DESC
+        """);
+    }
     
 }

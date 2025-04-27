@@ -44,6 +44,11 @@ public class ResultController {
     public List<Map<String, Object>> getFastestAndSlowestResponsetime() {
         return benchmarkResultService.getFastestAndSlowestResponsetime();
     }
+
+    @RequestMapping("/getCorrectionCount")
+    public List<Map<String, Object>> getCorrectionCount() {
+        return benchmarkResultService.getCorrectionCount();
+    }
     
 }
 
