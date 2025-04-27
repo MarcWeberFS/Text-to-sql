@@ -3,6 +3,7 @@ import BenchmarkResponseTime from "../components/benchmark-responsetime"
 import BenchmarkFastestSlowest from "../components/benchmark-fastest-slowest-responsetime"
 import BenchmarkCorrections from "../components/benchmark-correction-count"
 import BenchmarkResponseTimeTrueFalse from "../components/benchmark-true-false-responsetime"
+import BenchmarkCountIssueTypes from "../components/benchmark-count-issue-types"
 
 export default function Benchmark() {
   return (
@@ -11,6 +12,8 @@ export default function Benchmark() {
       <BenchmarkResults correction={'is_correct'}/>
       <BenchmarkResults correction={'human_correction'}/>
       <BenchmarkCorrections />
+      <BenchmarkCountIssueTypes correction={true}/>
+      <BenchmarkCountIssueTypes correction={false}/>
       <BenchmarkResponseTime />
       <BenchmarkFastestSlowest />
       <BenchmarkResponseTimeTrueFalse />

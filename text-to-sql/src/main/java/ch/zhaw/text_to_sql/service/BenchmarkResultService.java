@@ -79,6 +79,25 @@ public class BenchmarkResultService {
         GROUP BY is_correct;
         """);
     }
+
     
+    public List<Map<String, Object>> getCountFalseIssueTypes() {
+        return queryService.executeQuery("""
+        SELECT issue_type, COUNT(*) AS count
+        FROM benchmark_results
+        WHERE issue_type IS NOT NULL AND issue_type != '' and issue_type != 'Structural Simplicity' and issue_type != 'Performance Issue' and issue_type != 'Encoding Artifact' and run_number = 1
+        GROUP BY issue_type
+        ORDER BY count DESC;
+        """);
+    }
     
+    public List<Map<String, Object>> getCountTrueIssueTypes() {
+        return queryService.executeQuery("""
+        SELECT issue_type, COUNT(*) AS count
+        FROM benchmark_results
+        WHERE issue_type IS NOT NULL AND issue_type != '' and issue_type != 'Spatial Context Misuse' and issue_type != 'Tag Loss' and issue_type != 'Syntax' and issue_type != 'Wrong Tags'
+        GROUP BY issue_type
+        ORDER BY count DESC;
+        """);
+    }
 }
