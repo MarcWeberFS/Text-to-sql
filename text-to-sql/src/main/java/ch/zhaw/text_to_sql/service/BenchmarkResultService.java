@@ -70,5 +70,15 @@ public class BenchmarkResultService {
         ORDER BY human_correction DESC, is_correct DESC
         """);
     }
+
+    public List<Map<String, Object>> getResponseTimeTrueFalse() {
+        return queryService.executeQuery("""
+        SELECT is_correct, AVG(response_time_ms) AS avg_response_time_ms
+        FROM benchmark_results
+        WHERE run_number = 1
+        GROUP BY is_correct;
+        """);
+    }
+    
     
 }

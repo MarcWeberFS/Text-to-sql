@@ -49,6 +49,11 @@ public class ResultController {
     public List<Map<String, Object>> getCorrectionCount() {
         return benchmarkResultService.getCorrectionCount();
     }
+
+    @RequestMapping("/getResponseTimeTrueFalse")
+    public List<Map<String, Object>> getResponseTimeTrueFalse() {
+        return benchmarkResultService.getResponseTimeTrueFalse();
+    }
     
 }
 
