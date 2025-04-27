@@ -81,7 +81,8 @@ public class MainController {
     public String runBenchmark(@RequestBody Map<String, String> request) {
         benchmarkService.runAllBenchmarks(
             Boolean.parseBoolean(request.get("userFeedbackLoop")),
-            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")));
+            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")),
+            Integer.parseInt(request.get("runNumber")));
         return "Running all benchmarks for all LLMs.";
     }
     

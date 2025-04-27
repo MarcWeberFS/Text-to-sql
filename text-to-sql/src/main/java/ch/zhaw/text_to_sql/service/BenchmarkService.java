@@ -18,7 +18,7 @@ public class BenchmarkService {
         this.queryExecutionService = queryExecutionService;
     }
 
-    public void runAllBenchmarks(boolean user_feedback_loop, boolean syntax_feedback_loop) {
+    public void runAllBenchmarks(boolean user_feedback_loop, boolean syntax_feedback_loop, int runNumber){
         String fetchSql = "SELECT * FROM benchmark_cases ORDER BY id ASC";
         List<BenchmarkCase> benchmarkCases = fetchBenchmarkCases(fetchSql);
     
@@ -27,9 +27,10 @@ public class BenchmarkService {
         for (String llm : llms) {
             for (BenchmarkCase testCase : benchmarkCases) {
                 String checkSql = String.format(
-                    "SELECT COUNT(*) AS count FROM benchmark_results WHERE benchmark_case_id = %d AND llm = '%s'",
+                    "SELECT COUNT(*) AS count FROM benchmark_results WHERE benchmark_case_id = %d AND llm = '%s' AND run_number = %d",
                     testCase.getId(),
-                    llm
+                    llm,
+                    runNumber
                 );
                 List<Map<String, Object>> checkResult = queryService.executeQuery(checkSql);
                 long alreadyExists = ((Number) checkResult.get(0).get("count")).longValue();
@@ -47,7 +48,7 @@ public class BenchmarkService {
                         testCase.getPrompt(),
                         user_feedback_loop,
                         syntax_feedback_loop,
-                        false,
+                        true,
                         llm
                     );
     
@@ -73,7 +74,7 @@ public class BenchmarkService {
                         generatedSql.replace("$", "\\$"),
                         null,
                         duration,
-                        1,
+                        runNumber,
                         response.getRetries(),
                         llm,
                         user_feedback_loop,
