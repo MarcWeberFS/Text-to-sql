@@ -37,4 +37,25 @@ public class BenchmarkResultService {
                         "GROUP BY llm\n" + 
                         "ORDER BY avg_response_time_ms ASC;");
     }
+
+    public List<Map<String, Object>> getFastestAndSlowestResponsetime() {
+        return queryService.executeQuery(
+            "( " +
+            "SELECT 'fastest' AS type, llm, response_time_ms " +
+            "FROM benchmark_results " +
+            "WHERE run_number = 1 " +
+            "ORDER BY response_time_ms ASC " +
+            "LIMIT 1 " +
+            ") " +
+            "UNION ALL " +
+            "( " +
+            "SELECT 'slowest' AS type, llm, response_time_ms " +
+            "FROM benchmark_results " +
+            "WHERE run_number = 1 " +
+            "ORDER BY response_time_ms DESC " +
+            "LIMIT 1 " +
+            ");"
+        );
+    }
+    
 }

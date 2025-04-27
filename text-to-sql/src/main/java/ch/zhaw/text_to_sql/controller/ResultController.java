@@ -39,6 +39,11 @@ public class ResultController {
     public List<Map<String, Object>> requestMethodName() {
         return benchmarkResultService.getResponsetime();
     }
+
+    @RequestMapping("/getFastestAndSlowestResponsetime")
+    public List<Map<String, Object>> getFastestAndSlowestResponsetime() {
+        return benchmarkResultService.getFastestAndSlowestResponsetime();
+    }
     
 }
 

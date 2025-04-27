@@ -1,5 +1,6 @@
 import BenchmarkResults from "../components/benchmark-results"
 import BenchmarkResponseTime from "../components/benchmark-responsetime"
+import BenchmarkFastestSlowest from "../components/benchmark-fastest-slowest-responsetime"
 
 export default function Benchmark() {
   return (
@@ -8,6 +9,7 @@ export default function Benchmark() {
       <BenchmarkResults correction={'is_correct'}/>
       <BenchmarkResults correction={'human_correction'}/>
       <BenchmarkResponseTime />
+      <BenchmarkFastestSlowest />
     </div>
   )
 }
