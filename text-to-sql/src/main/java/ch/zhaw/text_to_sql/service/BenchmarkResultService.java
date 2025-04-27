@@ -95,7 +95,7 @@ public class BenchmarkResultService {
         return queryService.executeQuery("""
         SELECT issue_type, COUNT(*) AS count
         FROM benchmark_results
-        WHERE issue_type IS NOT NULL AND issue_type != '' and issue_type != 'Spatial Context Misuse' and issue_type != 'Tag Loss' and issue_type != 'Syntax' and issue_type != 'Wrong Tags'
+        WHERE issue_type IS NOT NULL AND issue_type != '' and issue_type != 'Spatial Context Misuse' and issue_type != 'Tag Loss' and issue_type != 'Syntax' and issue_type != 'Wrong Tags' and run_number = 1
         GROUP BY issue_type
         ORDER BY count DESC;
         """);
