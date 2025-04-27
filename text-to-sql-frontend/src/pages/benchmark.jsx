@@ -85,6 +85,9 @@ export default function Benchmark() {
                       The models used vary significantly in performance and release date. This was not intentional, but a major limiting factor was the input token size. The average benchmark case size at the time of benchmarking was around 22,400 tokens, including the syntax feedback loop. Many newer, more powerful models and older models could not be included because they could not handle such large inputs.
                   </p>
                   <p className="mb-4">
+                      The LLM's are not aware of the questions they answered before. All LLM's have a new chat for each and every time the benchmark interacts with a LLM, making the LLM completely unaware of the cases it is being asked.
+                  </p>
+                  <p className="mb-4">
                       First shown are the results of the automated correctness evaluation. Each LLM response is run against the database and is compared to the expected SQL result. If you click on any benchmark case, you can inspect the exact prompt, example SQL query, and each LLM's individual response.
                   </p>
                   <BenchmarkResults correction={'is_correct'} />
