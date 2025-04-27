@@ -100,4 +100,25 @@ public class BenchmarkResultService {
         ORDER BY count DESC;
         """);
     }
+
+
+    public Map<String, Object> getTotalStats() {
+        Map<String, Object> stats = queryService.executeQuery("""
+            SELECT
+            COUNT(*) AS total_cases,
+            SUM(CASE WHEN human_correction THEN 1 ELSE 0 END) AS correct_cases,
+            SUM(CASE WHEN NOT human_correction THEN 1 ELSE 0 END) AS incorrect_cases,
+            ROUND(100.0 * SUM(CASE WHEN human_correction THEN 1 ELSE 0 END) / COUNT(*), 1) AS correctness_percentage,
+            ROUND(AVG(response_time_ms) / 1000.0, 1) AS avg_response_time_seconds
+          FROM benchmark_results
+          WHERE run_number = 1
+                  """
+        ).get(0);
+    
+        // This was tracked manually
+        stats.put("total_cost_chf", 6.79);
+        return stats;
+    }
+        
+    
 }

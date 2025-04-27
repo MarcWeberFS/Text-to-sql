@@ -5,6 +5,7 @@ import BenchmarkCorrections from "../components/benchmark-correction-count"
 import BenchmarkResponseTimeTrueFalse from "../components/benchmark-true-false-responsetime"
 import BenchmarkCountIssueTypes from "../components/benchmark-count-issue-types"
 import BenchmarkPricingTable from "../components/benchmark-pricing-table"
+import TotalBenchmarkStats from "../components/benchmark-total-stats"
 
 export default function Benchmark() {
   return (
@@ -19,6 +20,7 @@ export default function Benchmark() {
       <BenchmarkFastestSlowest />
       <BenchmarkResponseTimeTrueFalse />
       <BenchmarkPricingTable />
+      <TotalBenchmarkStats />
     </div>
   )
 }

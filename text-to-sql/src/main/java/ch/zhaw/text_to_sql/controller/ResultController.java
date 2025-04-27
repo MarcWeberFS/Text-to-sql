@@ -64,5 +64,10 @@ public class ResultController {
     public List<Map<String, Object>> getCountTrueIssueTypes() {
         return benchmarkResultService.getCountTrueIssueTypes();
     }
+
+    @RequestMapping("getTotalStats")
+    public Map<String, Object> getTotalStats() {
+        return benchmarkResultService.getTotalStats();
+    }
 }
 
