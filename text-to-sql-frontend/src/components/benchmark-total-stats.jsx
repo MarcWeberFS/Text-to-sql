@@ -31,7 +31,6 @@ export default function TotalBenchmarkStats() {
     fetchStats();
   }, []);
 
-  // Animate numbers once stats are fetched
   useEffect(() => {
     if (!stats) return;
 
@@ -58,7 +57,7 @@ export default function TotalBenchmarkStats() {
         }
         newAnimatedValues[key] = isPercentage ? current.toFixed(1) : Math.floor(current);
         setAnimatedValues({ ...newAnimatedValues });
-      }, 15); // total animation time ~900ms
+      }, 15);
     });
 
   }, [stats]);
@@ -76,7 +75,7 @@ export default function TotalBenchmarkStats() {
       <div className="w-full max-w-3xl grid grid-cols-2 md:grid-cols-3 gap-6">
         
         {[ 
-          { title: "Total Cases", key: "total_cases" },
+          { title: "Total Responses", key: "total_cases" },
           { title: "✅ Answers", key: "correct_cases" },
           { title: "❌ Answers", key: "incorrect_cases" },
           { title: "Correctness %", key: "correctness_percentage", suffix: "%" },

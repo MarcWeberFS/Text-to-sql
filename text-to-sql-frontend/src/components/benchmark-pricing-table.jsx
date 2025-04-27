@@ -49,14 +49,14 @@ export default function BenchmarkPricingTable() {
   ];
 
   return (
-    <div className="p-6 flex justify-center">
-      <div className="w-full sm:w-4/5 overflow-x-auto">
+    <div className="p-6">
+      <div className="overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200 border border-gray-300 rounded-lg shadow">
           <thead className="bg-gray-100">
             <tr>
-              <th className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider"></th>
+              <th className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider"></th>
               {llms.map((llm) => (
-                <th key={llm} className="px-6 py-3 text-center text-xs font-medium uppercase tracking-wider">
+                <th key={llm} className="px-6 py-3 text-center text-xs font-medium text-gray-700 uppercase tracking-wider">
                   {llm}
                 </th>
               ))}
