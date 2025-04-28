@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.text_to_sql.service.BenchmarkResultService;
@@ -20,9 +22,9 @@ public class ResultController {
         this.benchmarkResultService = benchmarkResultService;
     }
 
-    @RequestMapping("/getResults")
-    public List<Map<String, Object>> getBenchmarkResults() {
-        return benchmarkResultService.getBenchmarkResults();
+    @RequestMapping("/getResults/{runNumber}")
+    public List<Map<String, Object>> getBenchmarkResults(@PathVariable int runNumber) {
+        return benchmarkResultService.getBenchmarkResults(runNumber);
     }
 
     @RequestMapping("/case/{id}")
@@ -31,8 +33,17 @@ public class ResultController {
     }
 
     @RequestMapping("/caseResult/{id}")
-    public List<Map<String, Object>> getBenchmarkCaseResult(@PathVariable int id) {
-        return benchmarkResultService.getBenchmarkCaseResult(id);
+    @ResponseBody
+    public List<Map<String, Object>> getBenchmarkCaseResult(
+        @PathVariable int id,
+        @RequestParam int runNumber
+    ) {
+        return benchmarkResultService.getBenchmarkCaseResult(id, runNumber);
+    }
+
+    @RequestMapping("/totalCorrect")
+    public List<Map<String, Object>> getTotalCorrect() {
+        return benchmarkResultService.getTotalCorrect();
     }
 
     @RequestMapping("/getResponsetime")

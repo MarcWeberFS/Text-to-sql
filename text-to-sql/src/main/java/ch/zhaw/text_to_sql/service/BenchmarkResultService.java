@@ -16,16 +16,16 @@ public class BenchmarkResultService {
         this.queryService = queryService;
     }
 
-    public List<Map<String, Object>> getBenchmarkResults() {
-        return queryService.executeQuery("select id, is_correct, llm, human_correction, benchmark_case_id from benchmark_results where run_number = 1 order by benchmark_case_id, llm");
+    public List<Map<String, Object>> getBenchmarkResults(int runNumber) {
+        return queryService.executeQuery("select id, is_correct, llm, human_correction, benchmark_case_id from benchmark_results where run_number = "+ runNumber + " order by benchmark_case_id, llm");
     }
 
     public List<Map<String, Object>> getBenchmarkCase(int id) {
         return responseSanitizer.sanitizeResult(queryService.executeQuery("select * from benchmark_cases where id = " + id));
     }
 
-    public List<Map<String, Object>> getBenchmarkCaseResult(int id) {
-        return  responseSanitizer.sanitizeResult(queryService.executeQuery("select * from benchmark_results where run_number = 1 and benchmark_case_id = " + id));
+    public List<Map<String, Object>> getBenchmarkCaseResult(int id, int runNumber) {
+        return  responseSanitizer.sanitizeResult(queryService.executeQuery("select * from benchmark_results where run_number = " + runNumber +" and benchmark_case_id = " + id));
     }
 
     public List<Map<String, Object>> getResponsetime() {
@@ -118,6 +118,16 @@ public class BenchmarkResultService {
         // This was tracked manually
         stats.put("total_cost_chf", 6.79);
         return stats;
+    }
+
+    public List<Map<String, Object>> getTotalCorrect() {
+         return queryService.executeQuery("""
+                SELECT
+                    (SUM(CASE WHEN run_number = 1 AND is_correct = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 1 THEN 1 ELSE 0 END)) AS run1_is_correct_percentage,
+                    (SUM(CASE WHEN run_number = 1 AND human_correction = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 1 THEN 1 ELSE 0 END)) AS run1_human_correction_percentage,
+                    (SUM(CASE WHEN run_number = 2 AND is_correct = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 2 THEN 1 ELSE 0 END)) AS run2_is_correct_percentage
+                    FROM benchmark_results;
+                """);
     }
         
     

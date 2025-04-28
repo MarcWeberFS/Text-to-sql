@@ -9,6 +9,7 @@ import BenchmarkFastestSlowest from "../components/benchmark-fastest-slowest-res
 import BenchmarkResponseTimeTrueFalse from "../components/benchmark-true-false-responsetime";
 import BenchmarkPricingTable from "../components/benchmark-pricing-table";
 import TotalBenchmarkStats from "../components/benchmark-total-stats";
+import BenchmarkCorrectnessOverview from "../components/benchmark-total-correct";
 import Navigation from "../components/navigation";
 import { motion } from "framer-motion";
 
@@ -90,15 +91,28 @@ export default function Benchmark() {
                   <p className="mb-4">
                       First shown are the results of the automated correctness evaluation. Each LLM response is run against the database and is compared to the expected SQL result. If you click on any benchmark case, you can inspect the exact prompt, example SQL query, and each LLM's individual response.
                   </p>
-                  <BenchmarkResults correction={'is_correct'} />
+                  <h3 className="text-2xl font-semibold mb-4 text-center">Automated Evaluation without feedback loops</h3>
+                  <BenchmarkResults correction={'is_correct'} run_number={2} />
+                  <h3 className="text-2xl font-semibold mb-4 text-center">Automated Evaluation with feedback loops</h3>
+                  <BenchmarkResults correction={'is_correct'} run_number={1} />
                   <p className="mb-4">
-                      Some responses flagged as wrong might actually be correct (false negatives). Therefore, every failed response was manually checked and categorized. The ones found out to be correct also got categorized as shown later.
+                      Some responses flagged as wrong might actually be correct (false negatives). Therefore, every failed response was manually checked and categorized. The ones found out to be correct also got categorized as shown in the Benchmarks when clicking into them.
                   </p>
-                  <BenchmarkResults correction={'human_correction'} />
+                  <h3 className="text-2xl font-semibold mb-4 text-center">Manual Evaluation</h3>
+                  <BenchmarkResults correction={'human_correction'} run_number={1}/>
+                  <h3 className="text-2xl font-semibold mb-4 text-center">Comparing With and Without Feedbackloops</h3>
+                  <BenchmarkCorrectnessOverview />
+                  <p className="mb-4">
+                      The runs clearly show, that having feedback loops is a major improvement. Jumping from 20% to 50% correct answers show that sending good example PostGIS queries and allowing a Syntax feedback loop which also checks for empty responses, more than doubles the amount of correct responses generated out of the box. The manual evaluation shows that the LLM's are capable of producing correct SQL queries, but were not able to pass the benchmark automated tests. The feedback loops are a major improvement, but they are not perfect. The LLM's still need to be guided in the right direction and the feedback loops are not always able to do that.
+                  </p>
+                    <p className="mb-4"><b>
+                    From now on, all of the results only contain runs that had the feedback loops enabled.
+                    </b>
+                  </p>
+                  <BenchmarkCorrections />
                   <p className="mb-4">
                       Overall, 19 responses were corrected to true positives after manual review. Two benchmark cases (case 4 and case 19) received no correct responses from any model.
                   </p>
-                  <BenchmarkCorrections />
               </motion.div>
 
               <motion.div

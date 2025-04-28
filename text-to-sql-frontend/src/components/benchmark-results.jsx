@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 
-export default function BenchmarkResults({ correction }) {
+export default function BenchmarkResults({ correction, run_number }) {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/getResults", {
+        const response = await fetch(`http://localhost:8080/benchmark/getResults/${run_number}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -81,7 +81,7 @@ export default function BenchmarkResults({ correction }) {
                 <tr
                     key={benchmarkId}
                     className="hover:bg-gray-100 cursor-pointer"
-                    onClick={() => window.location.href = `/case/${benchmarkId}`}
+                    onClick={() => window.location.href = `/case/${benchmarkId}?runNumber=${run_number}`}
                 >
                     <td className="px-6 py-2 whitespace-nowrap text-center font-semibold">{benchmarkId}</td>
                     {llms.map((llm) => (

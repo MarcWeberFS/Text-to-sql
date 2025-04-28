@@ -7,6 +7,7 @@ import Navigation from "../components/navigation";
 
 export default function BenchmarkCase() {
   const { id } = useParams();
+  const runNumber = new URLSearchParams(window.location.search).get("runNumber");
   const [caseInfo, setCaseInfo] = useState(null);
   const [caseResults, setCaseResults] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ export default function BenchmarkCase() {
       try {
         const [caseResponse, resultsResponse] = await Promise.all([
           fetch(`http://localhost:8080/benchmark/case/${id}`),
-          fetch(`http://localhost:8080/benchmark/caseResult/${id}`),
+          fetch(`http://localhost:8080/benchmark/caseResult/${id}?runNumber=${runNumber}`),
         ]);
 
         const caseData = await caseResponse.json();
