@@ -14,6 +14,7 @@ import Navigation from "../components/navigation";
 import { motion } from "framer-motion";
 
 export default function Benchmark() {
+  const [selectedTab, setSelectedTab] = useState("run2");
   const sections = {
     "Stats": useRef(null),
     "Correctness": useRef(null),
@@ -91,15 +92,92 @@ export default function Benchmark() {
                   <p className="mb-4">
                       First shown are the results of the automated correctness evaluation. Each LLM response is run against the database and is compared to the expected SQL result. If you click on any benchmark case, you can inspect the exact prompt, example SQL query, and each LLM's individual response.
                   </p>
-                  <h3 className="text-2xl font-semibold mb-4 text-center">Automated Evaluation without feedback loops</h3>
-                  <BenchmarkResults correction={'is_correct'} run_number={2} />
-                  <h3 className="text-2xl font-semibold mb-4 text-center">Automated Evaluation with feedback loops</h3>
-                  <BenchmarkResults correction={'is_correct'} run_number={1} />
-                  <p className="mb-4">
-                      Some responses flagged as wrong might actually be correct (false negatives). Therefore, every failed response was manually checked and categorized. The ones found out to be correct also got categorized as shown in the Benchmarks when clicking into them.
-                  </p>
-                  <h3 className="text-2xl font-semibold mb-4 text-center">Manual Evaluation</h3>
-                  <BenchmarkResults correction={'human_correction'} run_number={1}/>
+                  <div className="p-6">
+                    <div className="flex flex-wrap justify-center gap-2 mb-6">
+                        <button
+                        onClick={() => setSelectedTab("run2")}
+                        className={`px-4 py-2 rounded-md border ${
+                            selectedTab === "run2"
+                            ? "bg-gray-950 text-white border-blue-950"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                        >
+                        Without Feedback Loops
+                        </button>
+                        <button
+                        onClick={() => setSelectedTab("run3")}
+                        className={`px-4 py-2 rounded-md border ${
+                            selectedTab === "run3"
+                            ? "bg-gray-950 text-white border-blue-950"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                        >
+                        With User Feedback (No Syntax)
+                        </button>
+                        <button
+                        onClick={() => setSelectedTab("run1")}
+                        className={`px-4 py-2 rounded-md border ${
+                            selectedTab === "run1"
+                            ? "bg-gray-950 text-white border-blue-950"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                        >
+                        With Full Feedback Loops
+                        </button>
+                        <button
+                        onClick={() => setSelectedTab("manual")}
+                        className={`px-4 py-2 rounded-md border ${
+                            selectedTab === "manual"
+                            ? "bg-gray-950 text-white border-blue-950"
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                        >
+                        With Full Feedback Loops and Manual Evaluation
+                        </button>
+                    </div>
+
+                    {/* Tabs */}
+                    <div className="max-w-4xl mx-auto">
+                        {selectedTab === "run2" && (
+                        <>
+                            <h3 className="text-2xl font-semibold mb-4 text-center">
+                            Automated Evaluation without Feedback Loops
+                            </h3>
+                            <BenchmarkResults correction="is_correct" run_number={2} />
+                        </>
+                        )}
+
+                        {selectedTab === "run3" && (
+                        <>
+                            <h3 className="text-2xl font-semibold mb-4 text-center">
+                            Automated Evaluation with User Feedback (No Syntax)
+                            </h3>
+                            <BenchmarkResults correction="is_correct" run_number={3} />
+                        </>
+                        )}
+
+                        {selectedTab === "run1" && (
+                        <>
+                            <h3 className="text-2xl font-semibold mb-4 text-center">
+                            Automated Evaluation with Feedback Loops
+                            </h3>
+                            <BenchmarkResults correction="is_correct" run_number={1} />
+                        </>
+                        )}
+
+                        {selectedTab === "manual" && (
+                        <>
+                            <h3 className="text-2xl font-semibold mb-4 text-center">
+                            Manual Evaluation
+                            </h3>
+                            <p className="mb-4 text-center">
+                            Some responses flagged as wrong might actually be correct (false negatives). Therefore, every failed response was manually checked and categorized. The ones found out to be correct also got categorized as shown in the Benchmarks when clicking into them.
+                            </p>
+                            <BenchmarkResults correction="human_correction" run_number={1} />
+                        </>
+                        )}
+                    </div>
+                </div>
                   <h3 className="text-2xl font-semibold mb-4 text-center">Comparing With and Without Feedbackloops</h3>
                   <BenchmarkCorrectnessOverview />
                   <p className="mb-4">

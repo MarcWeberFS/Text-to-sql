@@ -125,7 +125,8 @@ public class BenchmarkResultService {
                 SELECT
                     (SUM(CASE WHEN run_number = 1 AND is_correct = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 1 THEN 1 ELSE 0 END)) AS run1_is_correct_percentage,
                     (SUM(CASE WHEN run_number = 1 AND human_correction = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 1 THEN 1 ELSE 0 END)) AS run1_human_correction_percentage,
-                    (SUM(CASE WHEN run_number = 2 AND is_correct = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 2 THEN 1 ELSE 0 END)) AS run2_is_correct_percentage
+                    (SUM(CASE WHEN run_number = 2 AND is_correct = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 2 THEN 1 ELSE 0 END)) AS run2_is_correct_percentage,
+                    (SUM(CASE WHEN run_number = 3 AND is_correct = true THEN 1 ELSE 0 END) * 100.0 / SUM(CASE WHEN run_number = 3 THEN 1 ELSE 0 END)) AS run3_is_correct_percentage
                     FROM benchmark_results;
                 """);
     }

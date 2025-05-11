@@ -40,24 +40,58 @@ export default function BenchmarkCorrectnessOverview() {
 
   return (
     <div className="p-6 flex justify-center">
-      <div className="w-full max-w-3xl grid grid-cols-1 md:grid-cols-3 gap-6">
-        
-        <div className="bg-white p-6 rounded-md border border-gray-300 shadow-md flex flex-col items-center">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">Without Feedback Loops</h2>
-          <p className="text-2xl font-bold">{stats.run2_is_correct_percentage !== undefined ? stats.run2_is_correct_percentage.toFixed(2) + "%" : "N/A"}</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-md border border-gray-300 shadow-md flex flex-col items-center">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">With Feedback Loops</h2>
-          <p className="text-2xl font-bold">{stats.run1_is_correct_percentage !== undefined ? stats.run1_is_correct_percentage.toFixed(2) + "%" : "N/A"}</p>
-        </div>
-
-        <div className="bg-white p-6 rounded-md border border-gray-300 shadow-md flex flex-col items-center">
-          <h2 className="text-lg font-semibold text-gray-700 mb-2 text-center">With Manual Evaluation</h2>
-          <p className="text-2xl font-bold">{stats.run1_human_correction_percentage !== undefined ? stats.run1_human_correction_percentage.toFixed(2) + "%" : "N/A"}</p>
-        </div>
-
+      <div className="w-full max-w-5xl overflow-x-auto">
+        <table className="min-w-full table-auto border-collapse border border-gray-300">
+          <thead>
+            <tr className="bg-gray-100">
+              <th className="border border-gray-300 p-4 text-left">Setup</th>
+              <th className="border border-gray-300 p-4 text-center">Feedback Loops</th>
+              <th className="border border-gray-300 p-4 text-center">Human Feedback Loop</th>
+              <th className="border border-gray-300 p-4 text-center">Syntax Feedback Loop</th>
+              <th className="border border-gray-300 p-4 text-center">Correct (%)</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="border border-gray-300 p-4">Without Feedback Loops</td>
+              <td className="border border-gray-300 text-center text-red-500">❌</td>
+              <td className="border border-gray-300 text-center text-red-500">❌</td>
+              <td className="border border-gray-300 text-center text-red-500">❌</td>
+              <td className="border border-gray-300 text-center font-semibold">
+                {stats.run2_is_correct_percentage !== undefined ? stats.run2_is_correct_percentage.toFixed(2) + "%" : "N/A"}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-4">With Human, Without Syntax Feedback Loops</td>
+              <td className="border border-gray-300 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 text-center text-red-500">❌</td>
+              <td className="border border-gray-300 text-center font-semibold">
+                {stats.run3_is_correct_percentage !== undefined ? stats.run3_is_correct_percentage.toFixed(2) + "%" : "N/A"}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 p-4">With Feedback Loops</td>
+              <td className="border border-gray-300 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 text-center font-semibold">
+                {stats.run1_is_correct_percentage !== undefined ? stats.run1_is_correct_percentage.toFixed(2) + "%" : "N/A"}
+              </td>
+            </tr>
+            <tr>
+              <td className="border border-gray-300 bg-gray-50 p-4">With Manual Evaluation</td>
+              <td className="border border-gray-300 bg-gray-50 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 bg-gray-50 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 bg-gray-50 text-center text-green-500">✅</td>
+              <td className="border border-gray-300 bg-gray-50 text-center font-semibold">
+                {stats.run1_human_correction_percentage !== undefined ? stats.run1_human_correction_percentage.toFixed(2) + "%" : "N/A"}
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   );
+  
 }
