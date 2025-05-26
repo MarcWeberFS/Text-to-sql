@@ -9,7 +9,7 @@ export default function BenchmarkResponseTimeTrueFalse() {
   useEffect(() => {
     const fetchTimes = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/getResponseTimeTrueFalse", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/getResponseTimeTrueFalse`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

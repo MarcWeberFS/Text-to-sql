@@ -9,7 +9,7 @@ export default function BenchmarkCorrections() {
   useEffect(() => {
     const fetchCorrections = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/getCorrectionCount", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/getCorrectionCount`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

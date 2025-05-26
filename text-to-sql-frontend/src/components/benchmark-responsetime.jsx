@@ -11,7 +11,7 @@ export default function BenchmarkResponseTime() {
   useEffect(() => {
     const fetchResponseTimes = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/getResponsetime", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/getResponsetime`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

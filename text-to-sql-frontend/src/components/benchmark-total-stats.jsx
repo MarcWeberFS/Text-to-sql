@@ -10,7 +10,7 @@ export default function TotalBenchmarkStats() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/getTotalStats", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/getTotalStats`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

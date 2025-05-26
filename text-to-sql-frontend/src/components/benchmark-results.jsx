@@ -9,7 +9,7 @@ export default function BenchmarkResults({ correction, run_number }) {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/benchmark/getResults/${run_number}`, {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/getResults/${run_number}`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

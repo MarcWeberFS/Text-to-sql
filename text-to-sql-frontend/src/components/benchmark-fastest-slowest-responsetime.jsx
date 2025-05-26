@@ -9,7 +9,7 @@ export default function BenchmarkFastestSlowest() {
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/getFastestAndSlowestResponsetime", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/getFastestAndSlowestResponsetime`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

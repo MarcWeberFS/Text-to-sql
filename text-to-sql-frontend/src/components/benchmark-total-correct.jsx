@@ -9,7 +9,7 @@ export default function BenchmarkCorrectnessOverview() {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const response = await fetch("http://localhost:8080/benchmark/totalCorrect", {
+        const response = await fetch(`${process.env.REACT_APP_API_URL}/benchmark/totalCorrect`, {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

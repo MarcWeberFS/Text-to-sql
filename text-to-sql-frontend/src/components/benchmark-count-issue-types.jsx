@@ -11,8 +11,8 @@ export default function CountFalseIssueTypes({ correction }) {
       try {
         const response = await fetch(
           correction
-            ? "http://localhost:8080/benchmark/getCountTrueIssueTypes"
-            : "http://localhost:8080/benchmark/getCountFalseIssueTypes",
+            ? `${process.env.REACT_APP_API_URL}/benchmark/getCountTrueIssueTypes`
+            : `${process.env.REACT_APP_API_URL}/getCountFalseIssueTypes`,
           {
             method: "GET",
             headers: {
