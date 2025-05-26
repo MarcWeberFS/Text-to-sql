@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 env:
-  AWS_REGION: eu-central-1
+  AWS_REGION: eu-central-2
   ECR_REGISTRY: 471112976468.dkr.ecr.eu-central-2.amazonaws.com
 
 jobs:
