@@ -13,11 +13,11 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**") // apply to all endpoints
-                        .allowedOrigins("http://localhost:3000, https://text-to-postgis.com", "https://www.text-to-postgis.com", "http://16.63.244.245") // allow your frontend
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:3000, https://text-to-postgis.com", "https://www.text-to-postgis.com", "http://16.63.244.245")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
-                        .allowCredentials(true); // only if you're using cookies
+                        .allowCredentials(true);
             }
         };
     }

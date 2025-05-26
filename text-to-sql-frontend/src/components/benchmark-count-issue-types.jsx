@@ -12,7 +12,7 @@ export default function CountFalseIssueTypes({ correction }) {
         const response = await fetch(
           correction
             ? `${process.env.REACT_APP_API_URL}/benchmark/getCountTrueIssueTypes`
-            : `${process.env.REACT_APP_API_URL}/getCountFalseIssueTypes`,
+            : `${process.env.REACT_APP_API_URL}/benchmark/getCountFalseIssueTypes`,
           {
             method: "GET",
             headers: {
