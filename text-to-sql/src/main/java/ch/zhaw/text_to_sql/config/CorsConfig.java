@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:3000, https://text-to-postgis.com", "https://www.text-to-postgis.com", "http://16.63.244.245")
+                        .allowedOrigins("http://localhost:3000", "https://text-to-postgis.com", "https://www.text-to-postgis.com", "http://16.63.244.245")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
