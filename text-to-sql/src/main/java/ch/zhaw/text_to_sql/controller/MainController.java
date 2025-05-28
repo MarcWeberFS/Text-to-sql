@@ -20,7 +20,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 
-
+/*
+ * This is the main controller for handling all logical operations of the application.
+ * It handles requests for running queries, saving and removing favorites, running benchmarks, and retrieving benchmark results.
+ * The MainController is a RestController and can be accessed via HTTP requests over Postman.
+ */
 @RestController
 public class MainController {
 

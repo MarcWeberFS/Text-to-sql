@@ -115,7 +115,7 @@ public class BenchmarkResultService {
                   """
         ).get(0);
     
-        // This was tracked manually
+        // This was tracked manually and put here in favor of putting it in the frontend
         stats.put("total_cost_chf", 6.79);
         return stats;
     }

@@ -28,7 +28,19 @@ public class DeepseekService {
     
     }
 
+    /**
+     * Generates a response from the DeepSeek model based on the provided prompt.
+     *
+     * @param prompt The input prompt for the model.
+     * @param userFeedbackLoop Indicates if user feedback is enabled.
+     * @param isFirstQuery Indicates if this is the first query.
+     * @param response The previous response from the model, if any.
+     * @param queryResult The result of the previous query, if any.
+     * @return The formatted response from the model.
+     */
     public String getResponse(String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response, List<Map<String, Object>> queryResult) {
+        
+        // Decide which prompt should be built based on whether it's the first query or a retry
         if (isFirstQuery) {
             prompt = promptBuildService.buildPrompt(prompt, userFeedbackLoop);
         } else {

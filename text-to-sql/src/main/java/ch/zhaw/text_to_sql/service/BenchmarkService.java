@@ -18,6 +18,15 @@ public class BenchmarkService {
         this.queryExecutionService = queryExecutionService;
     }
 
+    /**
+     * Runs all benchmark cases for all LLMs.
+     * This method will skip cases that have already been run in the specified run number.
+     * 
+     * @param user_feedback_loop whether to enable user feedback loop
+     * @param syntax_feedback_loop whether to enable syntax feedback loop
+     * @param runNumber the run number to check against existing results
+     * 
+     */
     public void runAllBenchmarks(boolean user_feedback_loop, boolean syntax_feedback_loop, int runNumber){
         String fetchSql = "SELECT * FROM benchmark_cases ORDER BY id ASC";
         List<BenchmarkCase> benchmarkCases = fetchBenchmarkCases(fetchSql);
@@ -64,7 +73,7 @@ public class BenchmarkService {
                     long endTime = System.currentTimeMillis();
                     long duration = endTime - startTime;
     
-                    boolean success = normalizeResult(expectedResult).equals(normalizeResult(llmResult));
+                    boolean success = normalizeResult(expectedResult).equals(normalizeResult(llmResult)); // Compare result objects, ignoring order
     
                     String insert = String.format(
                         "INSERT INTO benchmark_results (benchmark_case_id, is_correct, query, result, response_time_ms, run_number, retry_number, llm, user_feedback_loop, syntax_feedback_loop, human_correction) " +
@@ -83,7 +92,7 @@ public class BenchmarkService {
                     );
                     
     
-                    queryService.executeUpdate(insert);
+                    queryService.executeUpdate(insert); //Storing the result in the database under benchmark_results.
                     System.out.printf("Stored result for benchmark ID %d using LLM: %s%n", testCase.getId(), llm);
     
                     System.out.println("Sleeping 60 seconds to respect rate limits...");
@@ -96,7 +105,13 @@ public class BenchmarkService {
         }
     }
     
-
+    /**
+     * Runs the first benchmark case once for all LLMs.
+     * This is useful for testing and debugging purposes.
+     *
+     * @param user_feedback_loop whether to enable user feedback loop
+     * @param syntax_feedback_loop whether to enable syntax feedback loop
+     */
     public void runFirstBenchmarkCaseOnce(boolean user_feedback_loop, boolean syntax_feedback_loop) {
         String fetchSql = "SELECT id, prompt, expected_sql, difficulty, region, tags FROM benchmark_cases ORDER BY id ASC LIMIT 1";
         List<BenchmarkCase> benchmarkCases = fetchBenchmarkCases(fetchSql);
@@ -164,7 +179,12 @@ public class BenchmarkService {
     
     
     
-
+    /**
+     * Fetches all benchmark cases from the database.
+     * 
+     * @param sql the SQL query to fetch benchmark cases
+     * @return a list of BenchmarkCase objects
+     */
     private List<BenchmarkCase> fetchBenchmarkCases(String sql) {
         List<Map<String, Object>> rows = queryService.executeQuery(sql);
         List<BenchmarkCase> cases = new ArrayList<>();
@@ -183,6 +203,14 @@ public class BenchmarkService {
         return cases;
     }
 
+    /**
+     * Normalizes the result by converting all values to lowercase, trimming whitespace,
+     * sorting the values within each row, and sorting the rows themselves.
+     * This ensures that the comparison is order-independent.
+     *
+     * @param result the result set to normalize
+     * @return a list of normalized strings representing each row
+     */
     private List<String> normalizeResult(List<Map<String, Object>> result) {
         List<String> normalized = new ArrayList<>();
         

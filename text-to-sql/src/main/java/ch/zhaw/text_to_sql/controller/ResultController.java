@@ -11,6 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ch.zhaw.text_to_sql.service.BenchmarkResultService;
 
+/*
+ * This is the ResultController for handling all requests related to benchmark results.
+ * All of the methods are get requests only, as they are used to retrieve data from the database.
+ * The ResultController is a RestController and can be accessed via HTTP requests over Postman.
+ */
 
 @RestController
 @RequestMapping("/benchmark")
@@ -34,10 +39,7 @@ public class ResultController {
 
     @RequestMapping("/caseResult/{id}")
     @ResponseBody
-    public List<Map<String, Object>> getBenchmarkCaseResult(
-        @PathVariable int id,
-        @RequestParam int runNumber
-    ) {
+    public List<Map<String, Object>> getBenchmarkCaseResult(@PathVariable int id, @RequestParam int runNumber) {
         return benchmarkResultService.getBenchmarkCaseResult(id, runNumber);
     }
 

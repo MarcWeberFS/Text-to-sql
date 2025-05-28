@@ -28,8 +28,16 @@ public class PromptBuildService {
         this.retryInstructions = resourceLoader.getResource("classpath:/templates/RetryInstructions.txt");
     }
 
+    /**
+     * Builds the prompt for the model based on user input and whether user feedback loop is enabled.
+     *
+     * @param userInput The input provided by the user.
+     * @param userFeedbackLoop Indicates if the user feedback loop is enabled.
+     * @return The constructed prompt as a String.
+     */
     public String buildPrompt(String userInput, boolean userFeedbackLoop) {
 
+        // Check if the user_feedback_loop is enabled. If it is, append the favorite queries to the prompt.
         if (userFeedbackLoop) {
             prompt.append(readFileContent(instruction)).append("\n\n")
                 .append("Golden Tables: ").append(readFileContent(goldenTables)).append("\n\n")
@@ -44,6 +52,14 @@ public class PromptBuildService {
         return prompt.toString();
     }
 
+    /**
+     * Builds the retry prompt for the model based on user input, previous response, and query result.
+     *
+     * @param prompt The input provided by the user.
+     * @param response The previous response from the model.
+     * @param queryResult The result of the previous query.
+     * @return The constructed retry prompt as a String.
+     */
     public String buildRetryPrompt (String prompt, String response, List<Map<String, Object>> queryResult) {
         retryPrompt.append(readFileContent(retryInstructions)).append("\n\n")
             .append("User Input: ").append(prompt).append("\n\n")
