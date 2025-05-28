@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { CodeBlock } from "../components/code-block";
 import Navigation from "../components/navigation";
 
+// Template page for Benchmark Case
+
 export default function BenchmarkCase() {
   const { id } = useParams();
   const runNumber = new URLSearchParams(window.location.search).get("runNumber");

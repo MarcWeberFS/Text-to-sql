@@ -4,6 +4,8 @@ import { useState } from "react"
 import { Heart } from "lucide-react"
 import { CodeBlock } from "./code-block"
 
+// https://ui.aceternity.com/components/sql-box
+
 export default function SqlBox({ executedQuery, handleSaveFavorite }) {
   const [isSaved, setIsSaved] = useState(false)
 

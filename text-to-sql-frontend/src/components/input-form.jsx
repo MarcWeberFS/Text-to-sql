@@ -9,6 +9,8 @@ import SqlBox from "./sql-box"
 import ResponseTable from "./response-table"
 import ResultMap from "./result-app"
 
+// Used Shadcn UI components for Checkbox and Select
+
 export default function InputForm({ className }) {
     const [checkedUFL, setCheckedUFL] = useState(false)
     const [checkedSFL, setCheckedSFL] = useState(false)

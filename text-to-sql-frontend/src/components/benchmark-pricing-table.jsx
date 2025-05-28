@@ -1,6 +1,7 @@
 "use client";
 
 export default function BenchmarkPricingTable() {
+  // This was tracked manually and is not fetched from an API.
   const data = {
     ChatGPT: {
       price_start: "$7.65",

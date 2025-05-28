@@ -31,6 +31,7 @@ export default function BenchmarkResults({ correction, run_number }) {
 
   const llms = ["chatgpt", "claude", "deepseek", "gemini", "grok"];
 
+  // Ensure all LLMs are present in the results
   const groupedResults = results.reduce((acc, curr) => {
     if (!acc[curr.benchmark_case_id]) {
       acc[curr.benchmark_case_id] = {};
@@ -43,6 +44,7 @@ export default function BenchmarkResults({ correction, run_number }) {
     return acc;
   }, {});
 
+  // Fill in missing LLMs with null values
   const stats = results.reduce((acc, curr) => {
     const value = correction === "is_correct" ? curr.is_correct : curr.human_correction;
     if (!acc[curr.llm]) {
@@ -76,6 +78,7 @@ export default function BenchmarkResults({ correction, run_number }) {
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
             {Object.entries(groupedResults).map(([benchmarkId, llmResults]) => (
+                // Enter the benchmark case to see the results for each LLM
                 <tr
                     key={benchmarkId}
                     className="hover:bg-gray-100 cursor-pointer"

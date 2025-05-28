@@ -3,6 +3,8 @@
 import { useState, useEffect, useRef } from "react"
 import { cn } from "../lib/utils"
 
+// inspired by https://ui.aceternity.com/components/typewriter-effect
+
 export default function TypewriterInput({
   words = [
     "example"
