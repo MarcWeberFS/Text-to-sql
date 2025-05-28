@@ -104,7 +104,6 @@ export default function ResultMap({ data }) {
   return <div id="map" style={{ height: "500px", width: "100%", marginTop: "1rem", borderRadius: "8px" }} />;
 }
 
-// Defensive WKT parser
 function parseWKT(wkt) {
   if (!wkt) return null;
 

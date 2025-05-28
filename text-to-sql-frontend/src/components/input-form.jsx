@@ -9,8 +9,6 @@ import SqlBox from "./sql-box"
 import ResponseTable from "./response-table"
 import ResultMap from "./result-app"
 
-
-
 export default function InputForm({ className }) {
     const [checkedUFL, setCheckedUFL] = useState(false)
     const [checkedSFL, setCheckedSFL] = useState(false)
@@ -45,8 +43,6 @@ export default function InputForm({ className }) {
 
         const data = await response.json()
 
-        // Extract just the query field from each object
-        // And filter out duplicates to make the typewriter effect more interesting
         const uniqueQueries = [...new Set(data.map((item) => item.query))]
 
         if (uniqueQueries.length > 0) {
@@ -142,7 +138,6 @@ export default function InputForm({ className }) {
                       label="Allow Empty Response" />
               </div>
 
-              {/* Model Selector */}
               <div className="w-28">
                   <Select value={modelName} onValueChange={setModelName}>
                       <SelectTrigger

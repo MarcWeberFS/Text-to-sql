@@ -10,13 +10,11 @@ const Checkbox = React.forwardRef(
     { className, checked, defaultChecked, onChange, disabled, label, id, labelClassName, containerClassName, ...props },
     ref,
   ) => {
-    // Generate a unique ID if none is provided
     const uniqueId = React.useId()
     const checkboxId = id || `checkbox-${uniqueId}`
 
     const [isChecked, setIsChecked] = React.useState(defaultChecked || false)
 
-    // Handle controlled vs uncontrolled component
     const checkedState = checked !== undefined ? checked : isChecked
 
     const handleChange = (event) => {

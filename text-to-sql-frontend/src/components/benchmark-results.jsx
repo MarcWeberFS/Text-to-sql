@@ -31,7 +31,6 @@ export default function BenchmarkResults({ correction, run_number }) {
 
   const llms = ["chatgpt", "claude", "deepseek", "gemini", "grok"];
 
-  // Organize results by benchmark_case_id
   const groupedResults = results.reduce((acc, curr) => {
     if (!acc[curr.benchmark_case_id]) {
       acc[curr.benchmark_case_id] = {};
@@ -44,7 +43,6 @@ export default function BenchmarkResults({ correction, run_number }) {
     return acc;
   }, {});
 
-  // Total correct and total attempts per LLM
   const stats = results.reduce((acc, curr) => {
     const value = correction === "is_correct" ? curr.is_correct : curr.human_correction;
     if (!acc[curr.llm]) {
@@ -99,7 +97,6 @@ export default function BenchmarkResults({ correction, run_number }) {
             ))}
 
 
-              {/* Total Correct Row */}
               <tr className="bg-gray-50 font-semibold">
                 <td className="px-6 py-2 text-center">Total Correct</td>
                 {llms.map((llm) => (
@@ -109,7 +106,6 @@ export default function BenchmarkResults({ correction, run_number }) {
                 ))}
               </tr>
 
-              {/* Correctness Percentage Row */}
               <tr className="bg-gray-100 font-semibold">
                 <td className="px-6 py-2 text-center">Correctness %</td>
                 {llms.map((llm) => {
