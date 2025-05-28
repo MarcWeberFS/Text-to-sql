@@ -72,7 +72,7 @@ public class ResultController {
     public List<Map<String, Object>> getCountFalseIssueTypes() {
         return benchmarkResultService.getCountFalseIssueTypes();
     }
-    
+
     @RequestMapping("/getCountTrueIssueTypes")
     public List<Map<String, Object>> getCountTrueIssueTypes() {
         return benchmarkResultService.getCountTrueIssueTypes();
@@ -83,4 +83,3 @@ public class ResultController {
         return benchmarkResultService.getTotalStats();
     }
 }
-

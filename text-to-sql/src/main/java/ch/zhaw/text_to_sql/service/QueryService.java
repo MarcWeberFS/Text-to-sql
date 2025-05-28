@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class QueryService {
-    
+
     private final JdbcTemplate jdbcTemplate;
 
     public QueryService(JdbcTemplate jdbcTemplate) {

@@ -6,7 +6,6 @@ import lombok.Data;
 
 @Data
 public class BenchmarkCase {
-
     private int id;
     private String prompt;
     private String expectedSql;

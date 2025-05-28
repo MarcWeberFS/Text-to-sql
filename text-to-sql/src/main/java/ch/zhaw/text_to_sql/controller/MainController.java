@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
-
 /*
  * This is the main controller for handling all logical operations of the application.
  * It handles requests for running queries, saving and removing favorites, running benchmarks, and retrieving benchmark results.
@@ -34,29 +32,27 @@ public class MainController {
 
     private BenchmarkService benchmarkService;
 
-    public MainController(QueryExecutionService queryExecutionService, FavoriteService favoriteService, BenchmarkService benchmarkService) {
+    public MainController(QueryExecutionService queryExecutionService, FavoriteService favoriteService,
+            BenchmarkService benchmarkService) {
         this.favoriteService = favoriteService;
         this.benchmarkService = benchmarkService;
         this.queryExecutionService = queryExecutionService;
     }
-    
-    
+
     @PostMapping("/query")
     public QueryResponse runQuery(@RequestBody Map<String, String> request) {
         return queryExecutionService.handleQuery(
-            request.get("prompt"),
-            Boolean.parseBoolean(request.get("userFeedbackLoop")),
-            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")),
-            Boolean.parseBoolean(request.get("allowEmptyResponse")),
-            request.get("model")
-        );
+                request.get("prompt"),
+                Boolean.parseBoolean(request.get("userFeedbackLoop")),
+                Boolean.parseBoolean(request.get("syntaxFeedbackLoop")),
+                Boolean.parseBoolean(request.get("allowEmptyResponse")),
+                request.get("model"));
     }
-
 
     @RequestMapping("/favorite")
     public ResponseEntity<Map<String, String>> saveFavorite(@RequestBody Map<String, String> request) {
         favoriteService.addFavorite(request);
-        
+
         return ResponseEntity.ok(Map.of("message", "Favorite saved"));
     }
 
@@ -65,7 +61,6 @@ public class MainController {
         favoriteService.removeFavorite(index);
         return ResponseEntity.ok("Favorite removed successfully");
     }
-    
 
     @RequestMapping("/getFavorites")
     public List<Map<String, Object>> getFavorites() {
@@ -75,8 +70,8 @@ public class MainController {
     @GetMapping("/benchmark/test")
     public String runFirstBenchmarkTest(@RequestBody Map<String, String> request) {
         benchmarkService.runFirstBenchmarkCaseOnce(
-            Boolean.parseBoolean(request.get("userFeedbackLoop")),
-            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")));
+                Boolean.parseBoolean(request.get("userFeedbackLoop")),
+                Boolean.parseBoolean(request.get("syntaxFeedbackLoop")));
         return "First benchmark test executed for all LLMs.";
     }
 
@@ -84,10 +79,10 @@ public class MainController {
     @ResponseBody
     public String runBenchmark(@RequestBody Map<String, String> request) {
         benchmarkService.runAllBenchmarks(
-            Boolean.parseBoolean(request.get("userFeedbackLoop")),
-            Boolean.parseBoolean(request.get("syntaxFeedbackLoop")),
-            Integer.parseInt(request.get("runNumber")));
+                Boolean.parseBoolean(request.get("userFeedbackLoop")),
+                Boolean.parseBoolean(request.get("syntaxFeedbackLoop")),
+                Integer.parseInt(request.get("runNumber")));
         return "Running all benchmarks for all LLMs.";
     }
-    
+
 }

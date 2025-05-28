@@ -6,7 +6,8 @@ import java.util.Map;
 public class ResponseSanitizer {
 
     /**
-     * Sanitizes the result by ensuring that all values in the maps are of type String, Number, Boolean, or null.
+     * Sanitizes the result by ensuring that all values in the maps are of type
+     * String, Number, Boolean, or null.
      * If a value is of an unsupported type, it is converted to a String.
      *
      * @param input List of maps containing the result data
@@ -16,12 +17,13 @@ public class ResponseSanitizer {
         for (Map<String, Object> map : input) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 Object value = entry.getValue();
-                if (!(value == null || value instanceof String || value instanceof Number || value instanceof Boolean)) {
-                    entry.setValue(value.toString());  // fallback to String
+                if (!(value == null || value instanceof String || value instanceof Number
+                        || value instanceof Boolean)) {
+                    entry.setValue(value.toString()); // fallback to String
                 }
             }
         }
         return input;
     }
-    
+
 }

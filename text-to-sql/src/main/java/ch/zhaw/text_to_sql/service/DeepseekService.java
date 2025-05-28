@@ -22,59 +22,58 @@ public class DeepseekService {
     public DeepseekService(PromptBuildService promptBuildService) {
         this.promptBuildService = promptBuildService;
         this.webClient = WebClient.builder()
-            .baseUrl("https://api.deepseek.com/v1")
-            .defaultHeader("Content-Type", "application/json")
-            .build();
-    
+                .baseUrl("https://api.deepseek.com/v1")
+                .defaultHeader("Content-Type", "application/json")
+                .build();
+
     }
 
     /**
      * Generates a response from the DeepSeek model based on the provided prompt.
      *
-     * @param prompt The input prompt for the model.
+     * @param prompt           The input prompt for the model.
      * @param userFeedbackLoop Indicates if user feedback is enabled.
-     * @param isFirstQuery Indicates if this is the first query.
-     * @param response The previous response from the model, if any.
-     * @param queryResult The result of the previous query, if any.
+     * @param isFirstQuery     Indicates if this is the first query.
+     * @param response         The previous response from the model, if any.
+     * @param queryResult      The result of the previous query, if any.
      * @return The formatted response from the model.
      */
-    public String getResponse(String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response, List<Map<String, Object>> queryResult) {
-        
-        // Decide which prompt should be built based on whether it's the first query or a retry
+    public String getResponse(String prompt, boolean userFeedbackLoop, boolean isFirstQuery, String response,
+            List<Map<String, Object>> queryResult) {
+
+        // Decide which prompt should be built based on whether it's the first query or
+        // a retry
         if (isFirstQuery) {
             prompt = promptBuildService.buildPrompt(prompt, userFeedbackLoop);
         } else {
             prompt = promptBuildService.buildRetryPrompt(prompt, response, queryResult);
         }
-    
+
         List<Map<String, String>> messages = List.of(
-            Map.of("role", "system", "content", "You are a helpful assistant."),
-            Map.of("role", "user", "content", prompt)
-        );
-    
+                Map.of("role", "system", "content", "You are a helpful assistant."),
+                Map.of("role", "user", "content", prompt));
+
         Map<String, Object> requestBody = Map.of(
-            "model", "deepseek-chat",
-            "messages", messages,
-            "temperature", 0.2
-        );
-    
+                "model", "deepseek-chat",
+                "messages", messages,
+                "temperature", 0.2);
+
         try {
             String result = webClient.post()
-                .uri("/chat/completions")
-                .header("Authorization", "Bearer " + apiKey)
-                .bodyValue(requestBody)
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
-    
+                    .uri("/chat/completions")
+                    .header("Authorization", "Bearer " + apiKey)
+                    .bodyValue(requestBody)
+                    .retrieve()
+                    .bodyToMono(String.class)
+                    .block();
+
             System.out.println("DeepSeek raw response: " + result);
             return QueryExtractor.extractSqlQuery(result);
-    
+
         } catch (Exception e) {
             System.err.println(" DeepSeek API call failed: " + e.getMessage());
             return null;
         }
     }
-    
 
 }

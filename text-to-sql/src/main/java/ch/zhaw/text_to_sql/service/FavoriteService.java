@@ -20,9 +20,9 @@ public class FavoriteService {
         String queryText = request.get("query").replace("'", "''");
         String sqlText = request.get("sql").replace("'", "''");
 
-        String insertQuery = "INSERT INTO favorites (query, sql) VALUES ('" 
-            + queryText + "', '" 
-            + sqlText + "')";
+        String insertQuery = "INSERT INTO favorites (query, sql) VALUES ('"
+                + queryText + "', '"
+                + sqlText + "')";
 
         try {
             queryService.executeUpdate(insertQuery);
@@ -46,5 +46,5 @@ public class FavoriteService {
     public List<Map<String, Object>> getFavorites() {
         return queryService.executeQuery("SELECT * FROM favorites");
     }
-    
+
 }
