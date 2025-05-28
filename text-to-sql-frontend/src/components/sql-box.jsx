@@ -24,17 +24,16 @@ export default function SqlBox({ executedQuery, handleSaveFavorite }) {
 
           <button
             onClick={handleClick}
-            className={`absolute top-1 right-2 transition z-10 ${
-                isSaved ? "text-red-500" : "text-gray-500 hover:text-red-500"
-            }`}
+            className={`absolute top-1 right-2 transition z-10 ${isSaved ? "text-red-500" : "text-gray-500 hover:text-red-500"
+              }`}
             type="button"
             aria-label="Save as Favorite"
-            >
+          >
             <Heart
-                className="w-5 h-5"
-                fill={isSaved ? "currentColor" : "none"}
+              className="w-5 h-5"
+              fill={isSaved ? "currentColor" : "none"}
             />
-            </button>
+          </button>
 
 
           <div className="rounded bg-gray-100 text-sm pr-10">

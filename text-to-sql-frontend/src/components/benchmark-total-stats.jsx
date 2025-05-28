@@ -73,8 +73,8 @@ export default function TotalBenchmarkStats() {
   return (
     <div className="p-6 flex justify-center">
       <div className="w-full max-w-3xl grid grid-cols-2 md:grid-cols-3 gap-6">
-        
-        {[ 
+
+        {[
           { title: "Total Responses", key: "total_cases" },
           { title: "✅ Answers", key: "correct_cases" },
           { title: "❌ Answers", key: "incorrect_cases" },
@@ -88,10 +88,10 @@ export default function TotalBenchmarkStats() {
           >
             <h2 className="text-sm font-semibold text-gray-700 text-center whitespace-nowrap">{item.title}</h2>
             <p className="text-xl font-bold mt-2 text-center">
-              {item.value 
-                ? item.value 
-                : animatedValues[item.key] !== undefined 
-                  ? `${animatedValues[item.key]}${item.suffix || ""}` 
+              {item.value
+                ? item.value
+                : animatedValues[item.key] !== undefined
+                  ? `${animatedValues[item.key]}${item.suffix || ""}`
                   : "-"}
             </p>
           </div>

@@ -29,7 +29,7 @@ export const CodeBlock = ({
 
   const formatSQL = (code) => {
     if (!code) return "";
-  
+
     return code
       .replace(/\s+/g, " ") // Normalize whitespace
       .replace(/(SELECT|FROM|WHERE|JOIN|INNER JOIN|LEFT JOIN|RIGHT JOIN|FULL JOIN|GROUP BY|ORDER BY|HAVING|LIMIT|OFFSET|UNION|ON|AND|OR)/gi, "\n$1")
@@ -47,7 +47,7 @@ export const CodeBlock = ({
     ? tabs[activeTab].highlightLines || []
     : highlightLines;
 
-  
+
 
   return (
     <div className="relative w-3xl rounded-lg bg-slate-900 p-4 font-mono text-sm">
@@ -58,11 +58,10 @@ export const CodeBlock = ({
               <button
                 key={index}
                 onClick={() => setActiveTab(index)}
-                className={`px-3 !py-2 text-xs transition-colors font-sans ${
-                  activeTab === index
+                className={`px-3 !py-2 text-xs transition-colors font-sans ${activeTab === index
                     ? "text-white"
                     : "text-zinc-400 hover:text-zinc-200"
-                }`}>
+                  }`}>
                 {tab.name}
               </button>
             ))}
@@ -72,9 +71,9 @@ export const CodeBlock = ({
           <div className="flex justify-between items-center py-2">
             <div className="text-xs text-zinc-400">{filename}</div>
             <button
-                onClick={copyToClipboard}
-                className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors">
-                {copied ? "Copied!" : "Copy"}
+              onClick={copyToClipboard}
+              className="text-xs text-zinc-400 hover:text-zinc-200 transition-colors">
+              {copied ? "Copied!" : "Copy"}
             </button>
           </div>
         )}

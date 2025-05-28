@@ -18,11 +18,10 @@ export default function Navigation() {
           <Link
             key={item.path}
             to={item.path}
-            className={`font-medium transition ${
-              location.pathname === item.path
+            className={`font-medium transition ${location.pathname === item.path
                 ? "text-white border-b-2 border-white pb-1"
                 : "text-gray-400 hover:text-white"
-            }`}
+              }`}
           >
             {item.label}
           </Link>

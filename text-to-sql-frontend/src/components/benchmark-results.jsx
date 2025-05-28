@@ -77,27 +77,27 @@ export default function BenchmarkResults({ correction, run_number }) {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-            {Object.entries(groupedResults).map(([benchmarkId, llmResults]) => (
+              {Object.entries(groupedResults).map(([benchmarkId, llmResults]) => (
                 // Enter the benchmark case to see the results for each LLM
                 <tr
-                    key={benchmarkId}
-                    className="hover:bg-gray-100 cursor-pointer"
-                    onClick={() => window.location.href = `/case/${benchmarkId}?runNumber=${run_number}`}
+                  key={benchmarkId}
+                  className="hover:bg-gray-100 cursor-pointer"
+                  onClick={() => window.location.href = `/case/${benchmarkId}?runNumber=${run_number}`}
                 >
-                    <td className="px-6 py-2 whitespace-nowrap text-center font-semibold">{benchmarkId}</td>
-                    {llms.map((llm) => (
+                  <td className="px-6 py-2 whitespace-nowrap text-center font-semibold">{benchmarkId}</td>
+                  {llms.map((llm) => (
                     <td key={llm} className="px-6 py-2 whitespace-nowrap text-center">
-                        {llmResults[llm] === undefined ? (
+                      {llmResults[llm] === undefined ? (
                         "-"
-                        ) : llmResults[llm] ? (
+                      ) : llmResults[llm] ? (
                         <span className="text-green-500 font-bold text-lg">✅</span>
-                        ) : (
+                      ) : (
                         <span className="text-red-500 font-bold text-lg">❌</span>
-                        )}
+                      )}
                     </td>
-                    ))}
+                  ))}
                 </tr>
-            ))}
+              ))}
 
 
               <tr className="bg-gray-50 font-semibold">

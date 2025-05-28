@@ -10,7 +10,7 @@ export default function TypewriterInput({
     "example"
   ],
   className,
-    onSubmit,
+  onSubmit,
 }) {
   const [currentWordIndex, setCurrentWordIndex] = useState(0)
   const [currentText, setCurrentText] = useState("")
@@ -33,7 +33,7 @@ export default function TypewriterInput({
       if (currentText === "") {
         setIsDeleting(false)
         setCurrentWordIndex((prev) => (prev + 1) % words.length)
-        timeout = setTimeout(() => {}, pauseBeforeNextWord)
+        timeout = setTimeout(() => { }, pauseBeforeNextWord)
       } else {
         timeout = setTimeout(() => {
           setCurrentText(currentText.slice(0, -1))
@@ -82,19 +82,19 @@ export default function TypewriterInput({
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cn(
-            "sm:w-4/5 md:w-3xl px-4 py-2 text-base border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 mx-auto",
-            className,
-          )}
-          
+          "sm:w-4/5 md:w-3xl px-4 py-2 text-base border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 mx-auto",
+          className,
+        )}
+
         placeholder={isFocused ? "" : currentText}
         onKeyDown={(e) => {
-            if (e.key === "Enter" && !e.shiftKey) {
-              e.preventDefault()
-              if (onSubmit) {
-                onSubmit(inputValue)
-              }
+          if (e.key === "Enter" && !e.shiftKey) {
+            e.preventDefault()
+            if (onSubmit) {
+              onSubmit(inputValue)
             }
-          }}
+          }
+        }}
       />
     </div>
   )

@@ -46,11 +46,11 @@ export default function BenchmarkCase() {
   }
 
   return (
-    
+
     <div className="flex flex-col items-center p-6 pt-24">
-        <Navigation/>
+      <Navigation />
       <div className="flex flex-col gap-8">
-        
+
         <div className="bg-white p-6 rounded-md border border-gray-300 shadow-md">
           <h1 className="max-w-3xl text-3xl font-bold mb-4 text-center">Benchmark Case {caseInfo.id}</h1>
           <p className="max-w-3xl text-base mb-6 text-gray-700">{caseInfo.prompt}</p>
