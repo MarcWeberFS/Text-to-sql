@@ -74,7 +74,7 @@ export default function InputForm({ className }) {
 
     try {
       setQueryLoading(true)
-      const res = await fetch("http://localhost:8080/query", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/query`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -100,7 +100,7 @@ export default function InputForm({ className }) {
     if (!lastPrompt || !executedQuery) return
 
     try {
-      const res = await fetch("http://localhost:8080/favorite", {
+      const res = await fetch(`${process.env.REACT_APP_API_URL}/favorite`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

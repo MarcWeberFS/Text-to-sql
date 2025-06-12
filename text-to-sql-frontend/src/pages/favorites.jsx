@@ -9,7 +9,7 @@ export default function Favorites() {
 
   const fetchFavorites = async () => {
     try {
-      const response = await fetch("http://localhost:8080/getFavorites", {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/getFavorites`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -33,7 +33,7 @@ export default function Favorites() {
 
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`http://localhost:8080/removeFavorite?index=${id}`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/removeFavorite?index=${id}`, {
         method: "POST",
       });
 
