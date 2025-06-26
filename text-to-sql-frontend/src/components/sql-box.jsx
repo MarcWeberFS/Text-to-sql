@@ -15,9 +15,9 @@ export default function SqlBox({ executedQuery, handleSaveFavorite }) {
   }
 
   return (
-    <div className="p-5 border border-gray-300 rounded-md bg-white shadow-sm mt-10">
+    <div className="w-full max-w-4xl mx-auto p-4 sm:p-5 border border-gray-300 rounded-md bg-white shadow-sm">
       {executedQuery && (
-        <div className="relative sm:w-4/5 md:w-3xl">
+        <div className="relative w-full">
           <label className="block text-sm font-semibold text-gray-700 mb-1">
             Executed SQL Query:
           </label>
@@ -36,7 +36,7 @@ export default function SqlBox({ executedQuery, handleSaveFavorite }) {
           </button>
 
 
-          <div className="rounded bg-gray-100 text-sm pr-10">
+          <div className="rounded bg-gray-100 text-sm">
             <CodeBlock
               language="sql"
               filename="SQL"

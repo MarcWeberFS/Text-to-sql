@@ -44,7 +44,9 @@ export default function Benchmark() {
     }, []);
 
     return (
-        <><Navigation /><div className={` mx-auto flex flex-col items-center bg-white p-6 transition-all pt-24 duration-700 ${pageVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+        <><Navigation /><div className={`pt-24 px-4 md:px-6 bg-white min-h-screen transition-all duration-700 ${pageVisible ? "opacity-100 scale-100" : "opacity-0 scale-95"}`}>
+  <div className="max-w-4xl mx-auto flex flex-col space-y-24">
+
 
             <div className="max-w-3xl">
                 <div className="flex flex-wrap justify-center gap-3 mb-8">
@@ -268,7 +270,7 @@ export default function Benchmark() {
                     </p>
                 </motion.div>
             </div>
-
+        </div>
 
         </div></>
 

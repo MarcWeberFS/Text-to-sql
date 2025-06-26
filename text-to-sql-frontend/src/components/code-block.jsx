@@ -50,7 +50,7 @@ export const CodeBlock = ({
 
 
   return (
-    <div className="relative w-3xl rounded-lg bg-slate-900 p-4 font-mono text-sm">
+    <div className="relative max-w rounded-lg bg-slate-900 p-4 font-mono text-sm">
       <div className="flex flex-col gap-2">
         {tabsExist && (
           <div className="flex  justify-between items-center py-2">

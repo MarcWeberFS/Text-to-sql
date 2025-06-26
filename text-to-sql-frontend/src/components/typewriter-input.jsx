@@ -82,7 +82,7 @@ export default function TypewriterInput({
         onFocus={handleFocus}
         onBlur={handleBlur}
         className={cn(
-          "sm:w-4/5 md:w-3xl px-4 py-2 text-base border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 mx-auto",
+          "sm:w-4/5 md:w-2xl px-4 py-2 text-base border border-gray-400 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-800 mx-auto",
           className,
         )}
 
