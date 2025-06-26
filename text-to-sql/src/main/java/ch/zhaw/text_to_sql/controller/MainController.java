@@ -67,6 +67,7 @@ public class MainController {
         return favoriteService.getFavorites();
     }
 
+    /* Disabled benchmark, application is live and should not be used for benchmarking anymore.
     @GetMapping("/benchmark/test")
     public String runFirstBenchmarkTest(@RequestBody Map<String, String> request) {
         benchmarkService.runFirstBenchmarkCaseOnce(
@@ -84,5 +85,5 @@ public class MainController {
                 Integer.parseInt(request.get("runNumber")));
         return "Running all benchmarks for all LLMs.";
     }
-
+    */
 }

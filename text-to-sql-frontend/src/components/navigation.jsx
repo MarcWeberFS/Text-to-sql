@@ -9,6 +9,7 @@ export default function Navigation() {
     { label: "Home", path: "/" },
     { label: "Favorites", path: "/favorites" },
     { label: "Benchmark", path: "/benchmark" },
+    { label: "Github", path: "https://github.com/MarcWeberFS/Text-to-sql"}
   ];
 
   return (

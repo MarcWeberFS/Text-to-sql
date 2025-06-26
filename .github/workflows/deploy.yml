@@ -30,6 +30,19 @@ jobs:
           docker tag text-to-sql-backend:latest $ECR_REGISTRY/text-to-sql-backend:latest
           docker push $ECR_REGISTRY/text-to-sql-backend:latest
 
+      - name: Deploy backend (example, e.g. via ECS or manual run)
+        run: |
+          docker run -d \
+            -e DB_URL=${{ secrets.DB_URL }} \
+            -e DB_USER=${{ secrets.DB_USER }} \
+            -e DB_PASS=${{ secrets.DB_PASS }} \
+            -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+            -e CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }} \
+            -e GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
+            -e DEEPSEEK_API_KEY=${{ secrets.DEEPSEEK_API_KEY }} \
+            -e GROK_API_KEY=${{ secrets.GROK_API_KEY }} \
+            $ECR_REGISTRY/text-to-sql-backend:latest
+
       - name: Build and push frontend
         run: |
           docker build -t text-to-sql-frontend ./text-to-sql-frontend
