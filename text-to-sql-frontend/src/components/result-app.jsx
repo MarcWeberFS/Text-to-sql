@@ -101,7 +101,7 @@ export default function ResultMap({ data }) {
     };
   }, [data]);
 
-  return <div id="map" style={{ height: "500px", width: "100%", marginTop: "1rem", borderRadius: "8px" }} />;
+  return <div id="map" style={{ height: "500px", width: "100%", marginTop: "1rem", borderRadius: "8px", zIndex: 0}} />;
 }
 
 function parseWKT(wkt) {
