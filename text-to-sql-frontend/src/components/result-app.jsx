@@ -6,10 +6,18 @@ import L from "leaflet";
 
 export default function ResultMap({ data }) {
   useEffect(() => {
-    if (!data || data.length === 0) return;
+    const mapData = Array.isArray(data) && data.length > 0 ? data : [];
+
+    const existing = document.getElementById("map");
+    if (existing?._leaflet_id) existing._leaflet_id = null;
 
     const map = L.map("map").setView([47.3769, 8.5417], 13);
+    window._leafletMap = map;
+
     let bounds = [];
+    let markerCount = 0;
+    let polyCount = 0;
+    let lineCount = 0;
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
       attribution: "&copy; OpenStreetMap contributors",
@@ -25,12 +33,13 @@ export default function ResultMap({ data }) {
       shadowAnchor: [13, 41],
     });
 
-    data.forEach((item) => {
-      if (!item.geometry) return;
+    mapData.forEach((item) => {
+      if (!item?.geometry) return;
 
       try {
-        if (item.geometry.startsWith("POINT(")) {
-          const coords = item.geometry
+        const geometry = String(item.geometry);
+        if (geometry.startsWith("POINT(")) {
+          const coords = geometry
             .replace("POINT(", "")
             .replace(")", "")
             .split(" ")
@@ -38,7 +47,6 @@ export default function ResultMap({ data }) {
 
           if (coords.length === 2) {
             let [lng, lat] = coords;
-
             if (Math.abs(lng) > 1000 || Math.abs(lat) > 1000) {
               [lng, lat] = swissToWGS84(lng, lat);
             }
@@ -48,46 +56,43 @@ export default function ResultMap({ data }) {
               .bindPopup(item.name || "Unnamed location");
 
             bounds.push([lat, lng]);
+            markerCount++;
           }
         } else {
-          const shapes = parseWKT(item.geometry);
+          const shapes = parseWKT(geometry);
+          if (!shapes) return;
 
-          if (!shapes) throw new Error("Invalid geometry parsed");
-
-          if (item.geometry.startsWith("POLYGON") || item.geometry.startsWith("MULTIPOLYGON")) {
+          if (geometry.startsWith("POLYGON") || geometry.startsWith("MULTIPOLYGON")) {
             const poly = L.polygon(shapes, {
               color: "blue",
               weight: 2,
               fillOpacity: 0.3,
-            })
-              .addTo(map)
-              .bindPopup(item.name || "Polygon");
+            }).addTo(map).bindPopup(item.name || "Polygon");
 
             bounds = bounds.concat(poly.getLatLngs().flat());
-          } else if (item.geometry.startsWith("LINESTRING")) {
+            polyCount++;
+          } else if (geometry.startsWith("LINESTRING")) {
             const line = L.polyline(shapes, {
               color: "green",
               weight: 3,
-            })
-              .addTo(map)
-              .bindPopup(item.name || "Line");
+            }).addTo(map).bindPopup(item.name || "Line");
 
             bounds = bounds.concat(line.getLatLngs());
-          } else if (item.geometry.startsWith("MULTILINESTRING")) {
+            lineCount++;
+          } else if (geometry.startsWith("MULTILINESTRING")) {
             shapes.forEach((lineCoords) => {
               const line = L.polyline(lineCoords, {
                 color: "purple",
                 weight: 3,
-              })
-                .addTo(map)
-                .bindPopup(item.name || "Multi-line part");
+              }).addTo(map).bindPopup(item.name || "Multi-line part");
 
               bounds = bounds.concat(line.getLatLngs());
+              lineCount++;
             });
           }
         }
-      } catch (error) {
-        console.error("Skipping invalid geometry:", item.geometry, error.message);
+      } catch (_) {
+        // Fail silently in production
       }
     });
 
@@ -95,13 +100,40 @@ export default function ResultMap({ data }) {
       map.fitBounds(bounds, { padding: [50, 50] });
     }
 
+    // Consolidated log to pinpoint issues if no visible data
+    if (markerCount + polyCount + lineCount === 0) {
+      console.warn("[Map Debug] No visible elements rendered. Data length:", mapData.length);
+    }
+
+    window.debugAddMarker = function (lat, lng, label = "Debug Marker") {
+      L.marker([lat, lng], { icon: customIcon })
+        .addTo(map)
+        .bindPopup(label)
+        .openPopup();
+      map.setView([lat, lng], 15);
+    };
+
     return () => {
       map.off();
       map.remove();
+      delete window._leafletMap;
+      delete window.debugAddMarker;
     };
   }, [data]);
 
-  return <div id="map" style={{ height: "500px", width: "100%", marginTop: "1rem", borderRadius: "8px", zIndex: 0}} />;
+  return (
+    <div
+      id="map"
+      style={{
+        height: "500px",
+        width: "100%",
+        marginTop: "1rem",
+        borderRadius: "8px",
+        zIndex: 0,
+        position: "relative",
+      }}
+    />
+  );
 }
 
 function parseWKT(wkt) {
@@ -111,40 +143,30 @@ function parseWKT(wkt) {
     if (wkt.startsWith("POLYGON((")) {
       const raw = wkt.replace("POLYGON((", "").replace("))", "");
       const points = raw.split(",").map((p) => safeParsePoint(p));
-      if (points.length < 3) throw new Error("Not enough points for polygon");
       return [points];
     }
 
     if (wkt.startsWith("MULTIPOLYGON(((")) {
       const raw = wkt.replace("MULTIPOLYGON(((", "").replace(")))", "");
-      const polygons = raw.split(")),((");
-      return polygons.map((polygon) => {
-        const points = polygon.split(",").map((p) => safeParsePoint(p));
-        if (points.length < 3) throw new Error("Not enough points for multipolygon part");
-        return points;
-      });
+      return raw.split(")),((").map((polygon) =>
+        polygon.split(",").map((p) => safeParsePoint(p))
+      );
     }
 
     if (wkt.startsWith("LINESTRING(")) {
       const raw = wkt.replace("LINESTRING(", "").replace(")", "");
-      const points = raw.split(",").map((p) => safeParsePoint(p));
-      if (points.length < 2) throw new Error("Not enough points for line");
-      return points;
+      return raw.split(",").map((p) => safeParsePoint(p));
     }
 
     if (wkt.startsWith("MULTILINESTRING((")) {
       const raw = wkt.replace("MULTILINESTRING((", "").replace("))", "");
-      const lines = raw.split("),(");
-      return lines.map((line) => {
-        const points = line.split(",").map((p) => safeParsePoint(p));
-        if (points.length < 2) throw new Error("Not enough points for multiline part");
-        return points;
-      });
+      return raw.split("),(").map((line) =>
+        line.split(",").map((p) => safeParsePoint(p))
+      );
     }
 
     return null;
-  } catch (error) {
-    console.error("Error parsing WKT:", wkt, error.message);
+  } catch {
     return null;
   }
 }
