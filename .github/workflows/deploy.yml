@@ -63,11 +63,12 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          envs: DB_URL,DB_USER,DB_PASS,OPENAI_API_KEY,CLAUDE_API_KEY,GEMINI_API_KEY,DEEPSEEK_API_KEY,GROK_API_KEY
           script: |
-            aws ecr get-login-password --region eu-central-2 | docker login --username AWS --password-stdin 471112976468.dkr.ecr.eu-central-2.amazonaws.com
-
             docker stop backend frontend || true
             docker rm backend frontend || true
+
+            aws ecr get-login-password --region eu-central-2 | docker login --username AWS --password-stdin 471112976468.dkr.ecr.eu-central-2.amazonaws.com
 
             docker pull 471112976468.dkr.ecr.eu-central-2.amazonaws.com/text-to-sql-backend:latest
             docker pull 471112976468.dkr.ecr.eu-central-2.amazonaws.com/text-to-sql-frontend:latest
@@ -75,18 +76,19 @@ jobs:
             docker run -d \
               --name backend \
               -p 8080:8080 \
-              -e DB_URL=$DB_URL \
-              -e DB_USER=$DB_USER \
-              -e DB_PASS=$DB_PASS \
-              -e OPENAI_API_KEY=$OPENAI_API_KEY \
-              -e CLAUDE_API_KEY=$CLAUDE_API_KEY \
-              -e GEMINI_API_KEY=$GEMINI_API_KEY \
-              -e DEEPSEEK_API_KEY=$DEEPSEEK_API_KEY \
-              -e GROK_API_KEY=$GROK_API_KEY \
+              -e DB_URL=${{ secrets.DB_URL }} \
+              -e DB_USER=${{ secrets.DB_USER }} \
+              -e DB_PASS=${{ secrets.DB_PASS }} \
+              -e OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }} \
+              -e CLAUDE_API_KEY=${{ secrets.CLAUDE_API_KEY }} \
+              -e GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
+              -e DEEPSEEK_API_KEY=${{ secrets.DEEPSEEK_API_KEY }} \
+              -e GROK_API_KEY=${{ secrets.GROK_API_KEY }} \
               471112976468.dkr.ecr.eu-central-2.amazonaws.com/text-to-sql-backend:latest
 
             docker run -d \
               --name frontend \
               -p 3000:80 \
               471112976468.dkr.ecr.eu-central-2.amazonaws.com/text-to-sql-frontend:latest
+
 
