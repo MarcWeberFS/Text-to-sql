@@ -34,10 +34,16 @@ export default function ResultMap({ data }) {
     });
 
     mapData.forEach((item) => {
-      if (!item?.geometry) return;
-
       try {
-        const geometry = String(item.geometry);
+        const geometryValue = Object.values(item).find(v =>
+          typeof v === "string" &&
+          /^(POINT|POLYGON|MULTIPOLYGON|LINESTRING|MULTILINESTRING)\(/.test(v)
+        );
+
+        if (!geometryValue) return;
+
+        const geometry = String(geometryValue);
+
         if (geometry.startsWith("POINT(")) {
           const coords = geometry
             .replace("POINT(", "")
