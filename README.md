@@ -1,3 +1,11 @@
+# Bachelorarbeit
+
+Das Projekt hat im Rahmen einer Bachelorarbeit statt gefunden.
+
+Bachelorarbeit: [2025_Weber_Marc_BSC_WI.pdf](2025_Weber_Marc_BSC_WI.pdf)
+
+Note: 5.5
+
 # Text-to-PostGIS
 
 Eine Webanwendung zur Umwandlung natürlichsprachlicher Eingaben in SQL-Abfragen für räumliche Datenbanken mit PostGIS.  
