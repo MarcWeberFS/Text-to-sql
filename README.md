@@ -49,7 +49,7 @@ deepseek.api.key=sk-...
 grok.api.key=xai-...
 ```
 
-To start the app first do a clean, install on maven. Then click on run to start the application. Alternatively you can run the following commands inside of [text-to-sql/text-to-sql](text-to-sql/text-to-sql) to start the app.
+To start the app first do a clean, install on maven. Then click on run to start the application. Alternatively you can run the following commands inside of [text-to-sql/text-to-sql](text-to-sql) to start the app.
 ```cmd
 cd text-to-sql
 mvn clean install
