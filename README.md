@@ -1,27 +1,28 @@
-# Bachelorarbeit
+# Bachelorthesis
 
-Das Projekt hat im Rahmen einer Bachelorarbeit statt gefunden.
+This project was done in combination with a bachelor thesis.
 
-Bachelorarbeit: [2025_Weber_Marc_BSC_WI.pdf](2025_Weber_Marc_BSC_WI.pdf)
+Link to the written bachelorthesis: [2025_Weber_Marc_BSC_WI.pdf](2025_Weber_Marc_BSC_WI.pdf)
 
-Note: 5.5
+Grade: 5.5
 
 # Text-to-PostGIS
 
-Eine Webanwendung zur Umwandlung natürlichsprachlicher Eingaben in SQL-Abfragen für räumliche Datenbanken mit PostGIS.  
+A webapp to convert natural language input into SQL queries for spatial databases with PostGIS. The webapp contains the saved queries to improve the responses, an interface to interact with the Text-to-SQL / PostGIS application and results of the Benchmark.
+
 Live-Demo: [https://www.text-to-postgis.com](https://www.text-to-postgis.com)
 
 ---
 
-## Voraussetzungen
+## Requirements
 
-Für die lokale Ausführung werden folgende Komponenten benötigt:
+Your local environment requires the following services or apps to run:
 
 - Java JDK 17+
 - Maven
 - Node.js + npm
-- PostgreSQL (v13+) mit PostGIS-Erweiterung
-- API-Keys für:
+- PostgreSQL (v13+) with PostGIS-extention
+- API-Keys for:
   - ChatGPT (OpenAI)
   - Claude
   - Deepseek
@@ -30,9 +31,9 @@ Für die lokale Ausführung werden folgende Komponenten benötigt:
 
 ---
 
-## Bachend-Konfiguration
+## Backend Configuration
 
-Unter text-to-sql/src/main/ressources/application.properties sind folgende Felder zu kofigurieren auf die eigene Anbindungen.
+Under [text-to-sql\src\main\resources\application.properties](text-to-sql\src\main\resources\application.properties) are the following fields to be configured to fit your database and LLM endpoints.
 ```yaml
 spring.application.name=text-to-sql
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgis_db
@@ -48,31 +49,32 @@ deepseek.api.key=sk-...
 grok.api.key=xai-...
 ```
 
-Für das starten der Applikation kann entweder im Code-Editor auf Maven -> clean, instsall gedrückt werden. Ansonsten über das Terminal können folgende Befehle ausgeführt werden.
+To start the app first do a clean, install on maven. Then click on run to start the application. Alternatively you can run the following commands inside of [text-to-sql/text-to-sql](text-to-sql/text-to-sql) to start the app.
 ```cmd
 cd text-to-sql
 mvn clean install
 mvn spring-boot:run
 ```
 
-Backend läuft auf: [http://localhost:8080](http://localhost:8080)
+Backend runs on: [http://localhost:8080](http://localhost:8080)
 
-API-Dokumentation: [https://www.postman.com](https://documenter.getpostman.com/view/26856010/2sB2j1hCkg)
+API-Documentation: [https://www.postman.com](https://documenter.getpostman.com/view/26856010/2sB2j1hCkg)
 
+Under [MainController.java](text-to-sql\src\main\java\ch\zhaw\text_to_sql\controller\MainController.java) there are three endpoint commented out, these functionalities are core to use the benchmark and removing accidentally favorited prompts and responses.
 ---
 
-## Frontend-Konfigurieren
+## Frontend Configuration
 
-Unter text-to-sql-frontend/.env stelle Sicher dass das Frontend an den richtigen 
+Under [text-to-sql-frontend/.env](text-to-sql-frontend/.env) make sure the base backend URL is set to: 
 ```yaml
 REACT_APP_API_URL=http://localhost:8080
 ```
 
-Um das Frontend zu starten können folgende Befehlel ausgeführt werden.
+To start the frontend, run the following commands:
 ```cmd
 cd text-to-sql-frontend
 npm install
 npm run start
 ```
 
-Frontend läuft auf: [http://localhost:3000](http://localhost:3000)
+Frontend runs on: [http://localhost:3000](http://localhost:3000)

@@ -56,12 +56,14 @@ public class MainController {
         return ResponseEntity.ok(Map.of("message", "Favorite saved"));
     }
 
+    /* removed for now to prevent accidental deletion of favorites / greifing 
     @RequestMapping("/removeFavorite")
     public ResponseEntity<String> removeFavorite(@RequestParam int index) {
         favoriteService.removeFavorite(index);
         return ResponseEntity.ok("Favorite removed successfully");
     }
-
+    */
+    
     @RequestMapping("/getFavorites")
     public List<Map<String, Object>> getFavorites() {
         return favoriteService.getFavorites();
