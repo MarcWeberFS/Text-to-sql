@@ -33,7 +33,7 @@ Your local environment requires the following services or apps to run:
 
 ## Backend Configuration
 
-Under [text-to-sql\src\main\resources\application.properties](text-to-sql\src\main\resources\application.properties) are the following fields to be configured to fit your database and LLM endpoints.
+Under [text-to-sql/src/main/resources/application.properties](text-to-sql/src/main/resources/application.properties) are the following fields to be configured to fit your database and LLM endpoints.
 ```yaml
 spring.application.name=text-to-sql
 spring.datasource.url=jdbc:postgresql://localhost:5432/postgis_db
@@ -60,7 +60,8 @@ Backend runs on: [http://localhost:8080](http://localhost:8080)
 
 API-Documentation: [https://www.postman.com](https://documenter.getpostman.com/view/26856010/2sB2j1hCkg)
 
-Under [MainController.java](text-to-sql\src\main\java\ch\zhaw\text_to_sql\controller\MainController.java) there are three endpoint commented out, these functionalities are core to use the benchmark and removing accidentally favorited prompts and responses.
+Under [MainController.java](text-to-sql/src/main/java/ch/zhaw/text_to_sql/controller/MainController.java) there are three endpoint commented out, these functionalities are core to use the benchmark and removing accidentally favorited prompts and responses.
+
 ---
 
 ## Frontend Configuration
