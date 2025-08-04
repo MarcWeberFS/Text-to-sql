@@ -15,7 +15,7 @@ public class CorsConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedOrigins("http://localhost:3000", "https://text-to-postgis.com",
-                                "https://www.text-to-postgis.com", "http://16.63.244.245") // IP of the EC2 instance ->
+                                "https://www.text-to-postgis.com", "http://16.63.252.145") // IP of the EC2 instance ->
                                                                                            // 16.63.244.245
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
