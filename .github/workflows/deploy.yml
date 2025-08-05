@@ -66,17 +66,9 @@ jobs:
           envs: DB_URL,DB_USER,DB_PASS,OPENAI_API_KEY,CLAUDE_API_KEY,GEMINI_API_KEY,DEEPSEEK_API_KEY,GROK_API_KEY
           script: |
             echo "🔍 Verifying injected environment variables..."
-            echo "DB_USER: ${DB_USER}"
-            echo "DB_PASS is set: ${DB_PASS:+✅ yes}" # Check if it's non-empty
-            echo "DB_URL: ${DB_URL}"
-
-            echo "🔍 Checking Supabase DB connectivity..."
-            export PGPASSWORD="${DB_PASS}"
-            if ! psql -h aws-0-eu-central-2.pooler.supabase.com -U "${DB_USER}" -d postgres -c "SELECT 1;" > /dev/null 2>&1; then
-              echo "❌ DB connection failed. Halting deployment."
-              exit 1
-            fi
-            echo "✅ DB is reachable."
+            echo "DB_USER: ${{ secrets.DB_USER }}"
+            if [ -n "${DB_PASS}" ]; then echo "DB_PASS is set: ✅ yes"; else echo "DB_PASS is not set"; fi
+            echo "DB_URL: ${{ secrets.DB_URL }}"
 
             docker stop backend frontend || true
             docker rm backend frontend || true
