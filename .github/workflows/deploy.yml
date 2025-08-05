@@ -65,6 +65,15 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           envs: DB_URL,DB_USER,DB_PASS,OPENAI_API_KEY,CLAUDE_API_KEY,GEMINI_API_KEY,DEEPSEEK_API_KEY,GROK_API_KEY
           script: |
+          
+            echo "🔍 Checking DB connectivity..."
+            export PGPASSWORD=$DB_PASS
+            if ! psql -h aws-0-eu-central-2.pooler.supabase.com -U $DB_USER -d postgres -c "SELECT 1;" > /dev/null 2>&1; then
+              echo "❌ DB connection failed. Halting deployment."
+              exit 1
+            fi
+            echo "✅ DB is reachable."
+
             docker stop backend frontend || true
             docker rm backend frontend || true
 
