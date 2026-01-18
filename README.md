@@ -10,7 +10,7 @@ Grade: 5.5
 
 A webapp to convert natural language input into SQL queries for spatial databases with PostGIS. The webapp contains the saved queries to improve the responses, an interface to interact with the Text-to-SQL / PostGIS application and results of the Benchmark.
 
-Live-Demo: [https://www.text-to-postgis.com](https://www.text-to-postgis.com)
+~~Live-Demo: [https://www.text-to-postgis.com](https://www.text-to-postgis.com)~~
 
 ---
 
